@@ -1,5 +1,4 @@
 class AnswersController < ApplicationController
-
   before_action :set_question, only: [:create]
 
   def create
@@ -7,7 +6,7 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @question
     else
-      redirect_to @question
+      render 'questions/show'
     end
   end
 
