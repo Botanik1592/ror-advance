@@ -33,6 +33,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
+    sign_in_user
+
     before { get :new }
 
     it 'assings a new Question to @question' do
@@ -45,6 +47,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
+    sign_in_user
 
     before { get :edit, params: { id: question } }
 
@@ -58,6 +61,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    sign_in_user
+
     context 'with valid attributes' do
       let(:create_question) { post :create, question: attributes_for(:question) }
       it 'saves the new question in the DB' do
