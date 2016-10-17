@@ -31,7 +31,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'slim'
-gem 'rails-controller-testing'
+gem 'devise'
 
 group :test, :development do
   gem 'rspec-rails'
@@ -41,6 +41,8 @@ end
 
 group :test do
   gem 'shoulda-matchers'
+  gem 'capybara'
+  gem 'launchy'
 end
 
 group :development, :test do
