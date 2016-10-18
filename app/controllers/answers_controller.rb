@@ -6,7 +6,7 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @question
     else
-      render 'questions/show'
+      render 'questions/show', alert: '1 error occured while answer create'
     end
   end
 
