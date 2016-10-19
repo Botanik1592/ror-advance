@@ -1,5 +1,8 @@
 p= @question.title
 p= @question.body
+- if @question.user == current_user
+  p= link_to 'Delete question', @question, method: :delete, data: { confirm: 'Are you shure?' }
+
 <br>
 - if @question.answers.present?
   p
@@ -7,6 +10,10 @@ p= @question.body
     <br>
     - @question.answers.each_with_index do |answer, i|
       = "#{i+1}) #{answer.body}"
+      br
+      = link_to 'Delete answer', answer, method: :delete, data: { confirm: 'Are you shure?' }
+      br
+      br
 <br>
 - if user_signed_in?
   = form_for [@question, @question.answers.build] do |f|

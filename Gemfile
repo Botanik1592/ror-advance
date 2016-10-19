@@ -32,6 +32,7 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'slim'
 gem 'devise'
+gem "twitter-bootstrap-rails"
 
 group :test, :development do
   gem 'rspec-rails'

@@ -4,9 +4,10 @@ br
   b No questions found
 - else
   - @questions.each do |question|
-    = question.title
+    b= question.title
     br
     = question.body
+    br
     = link_to 'Show question', question
     hr
     br
