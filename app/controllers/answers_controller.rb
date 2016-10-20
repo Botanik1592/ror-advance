@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!, only: [:create, :destroy]
   before_action :set_question, only: [:create]
   before_action :set_answer, only: [:destroy]
 
@@ -9,18 +10,19 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @question
     else
-      render 'questions/show', alert: '1 error occured while answer create'
+      render 'questions/show'
     end
   end
 
   def destroy
     question = @answer.question
-    if @answer.user == current_user
+    if current_user.author_of?(@answer)
       @answer.destroy
-      redirect_to question_path(question), notice: 'Answer successfully deleted.'
+      flash[:notice] = 'Answer successfully deleted.'
     else
-      redirect_to question_path(question), alert: "You can not remove a foreign matter!"
+      flash[:notice] = "You can not remove a foreign matter!"
     end
+    redirect_to question
   end
 
   private

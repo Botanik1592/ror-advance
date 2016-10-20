@@ -15,6 +15,7 @@ feature 'User delete question', %q{
     click_on 'Delete question'
 
     expect(page).to have_content 'Question successfully deleted.'
+    expect(page).to_not have_content question.title
   end
 
   scenario 'Authenticated user tries to remove a foreign question' do

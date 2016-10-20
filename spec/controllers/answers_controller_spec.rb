@@ -10,7 +10,7 @@ RSpec.describe AnswersController, type: :controller do
       let(:create_answer) { post :create, params: { question_id: question.id, answer: attributes_for(:answer) } }
 
       it "saves new answer for question in DB" do
-        expect { create_answer }.to change(question.answers, :count).by(1)
+        expect { create_answer }.to change(question.answers.where(user: @user), :count).by(1)
       end
 
       it "redirect to question" do

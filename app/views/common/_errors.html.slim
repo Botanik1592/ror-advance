@@ -1,0 +1,7 @@
+- if resource.present?
+  - if resource.errors.any?
+    div id="error_explanation"
+      h2= resource.errors.count.to_s + " ошибка(и) возникла(и) при сохранении:"
+      ul
+      - resource.errors.full_messages.each do |message|
+        li= message
