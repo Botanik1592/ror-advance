@@ -1,0 +1,28 @@
+= render 'common/errors', resource: @answer
+p= @question.title
+p= @question.body
+- if current_user && current_user.author_of?(@question)
+  p= link_to 'Delete question', @question, method: :delete, data: { confirm: 'Are you shure?' }
+
+br
+- if @question.answers.present?
+  p
+    b Comments:
+    br
+    - @question.answers.each_with_index do |answer, i|
+      = "#{i+1}) #{answer.body}"
+      - if current_user && current_user.author_of?(answer)
+        br
+        = link_to 'Delete answer', answer, method: :delete, data: { confirm: 'Are you shure?' }
+      br
+      br
+br
+- if user_signed_in?
+  = form_for [@question, @question.answers.build] do |f|
+    = f.label :body
+    <br>
+    = f.text_area :body
+    <br>
+    = f.submit 'Create answer'
+- else
+  i You must sign in first for create answer

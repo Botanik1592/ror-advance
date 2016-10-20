@@ -33,6 +33,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
+    sign_in_user
+
     before { get :new }
 
     it 'assings a new Question to @question' do
@@ -45,6 +47,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
+    sign_in_user
 
     before { get :edit, params: { id: question } }
 
@@ -58,10 +61,12 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
+    sign_in_user
+
     context 'with valid attributes' do
-      let(:create_question) { post :create, question: attributes_for(:question) }
+      let(:create_question) { post :create, params: { question: attributes_for(:question) } }
       it 'saves the new question in the DB' do
-        expect { create_question }.to change(Question, :count).by(1)
+        expect { create_question }.to change(@user.questions, :count).by(1)
       end
       it 'redirects the show view' do
         create_question
@@ -70,7 +75,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'with invalid attributes' do
-      let(:create_invalid_question) { post :create, question: attributes_for(:invalid_question) }
+      let(:create_invalid_question) { post :create, params: { question: attributes_for(:invalid_question) } }
       it ' does not save the question' do
         expect { create_invalid_question }.to_not change(Question, :count)
       end
@@ -78,6 +83,33 @@ RSpec.describe QuestionsController, type: :controller do
       it ' re-renders new view' do
         create_invalid_question
         expect(response).to render_template :new
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    sign_in_user
+
+    context 'autor delete his question' do
+      let(:question) { @user.questions.create(title: 'ThisIsMyString', body: 'ThisIsMyText') }
+      before { question }
+
+      it 'delete question' do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      end
+
+      it 'redirect to index view' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to questions_path
+      end
+    end
+
+    context 'not-author delete question' do
+      let(:question) { create(:user).questions.create(title: 'This Is Question Title', body: 'This Is Question Body') }
+      before { question }
+
+      it 'not-delete question' do
+        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
       end
     end
   end
