@@ -21,11 +21,15 @@ feature 'Create answer', %q{
   scenario 'Authenticated user create answer with invalid data', js: true do
     sign_in(user)
 
-    visit question_path(create(:question))
+    visit question_path(question)
     fill_in 'Body', with: 'invalid'
     click_on 'Create answer'
+
     expect(current_path).to eq question_path(question)
-    expect(page).to_not have_content "invalid"
+
+    within '.answers' do
+      expect(page).to_not have_content "invalid"
+    end
   end
 
   scenario 'Non-authenticated user tries create answer' do
