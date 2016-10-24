@@ -6,7 +6,16 @@ p= @question.body
 
 br
 .answers
- = render 'answers'
+  b Comments:
+  br
+  - @question.answers.each do |answer|
+      = answer.body
+      - if current_user && current_user.author_of?(answer)
+        br
+        = link_to 'Delete answer', answer, method: :delete, data: { confirm: 'Are you shure?' }
+      br
+      br
+
 br
 - if user_signed_in?
   = form_for [@question, @question.answers.build], remote: true do |f|
