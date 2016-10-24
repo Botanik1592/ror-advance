@@ -26,10 +26,6 @@ RSpec.describe AnswersController, type: :controller do
         expect { create_invalid_answer }.to_not change(Answer, :count)
       end
 
-      it "redirect to new view" do
-        create_invalid_answer
-        expect(response).to render_template "questions/show"
-      end
     end
   end
 

@@ -7,10 +7,7 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
 
-    if @answer.save
-    else
-      render 'questions/show'
-    end
+    @answer.save
   end
 
   def destroy
