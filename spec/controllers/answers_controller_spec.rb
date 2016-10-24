@@ -26,6 +26,11 @@ RSpec.describe AnswersController, type: :controller do
         expect { create_invalid_answer }.to_not change(Answer, :count)
       end
 
+      it "render answer create template" do
+        create_invalid_answer
+        expect(response).to render_template :create
+      end
+
     end
   end
 
