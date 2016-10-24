@@ -5,20 +5,11 @@ p= @question.body
   p= link_to 'Delete question', @question, method: :delete, data: { confirm: 'Are you shure?' }
 
 br
-- if @question.answers.present?
-  p
-    b Comments:
-    br
-    - @question.answers.each_with_index do |answer, i|
-      = "#{i+1}) #{answer.body}"
-      - if current_user && current_user.author_of?(answer)
-        br
-        = link_to 'Delete answer', answer, method: :delete, data: { confirm: 'Are you shure?' }
-      br
-      br
+.answers
+ = render 'answers'
 br
 - if user_signed_in?
-  = form_for [@question, @question.answers.build] do |f|
+  = form_for [@question, @question.answers.build], remote: true do |f|
     = f.label :body
     <br>
     = f.text_area :body

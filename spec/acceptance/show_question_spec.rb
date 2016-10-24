@@ -15,8 +15,8 @@ feature 'Show question', %q{
 
     expect(page).to have_content 'ThisIsMyString'
     expect(page).to have_content 'ThisIsMyText'
-    expect(page).to have_content 'ThisIsMyAnswer1'
     expect(page).to have_content 'ThisIsMyAnswer2'
+    expect(page).to have_content 'ThisIsMyAnswer3'
 
   end
 end

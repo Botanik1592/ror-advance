@@ -6,9 +6,9 @@ feature 'Create answer', %q{
 } do
 
   given(:user) { create(:user) }
-  given(:question) { create(:question, user: user) }
+  given!(:question) { create(:question, user: user) }
 
-  scenario 'Authenticated user create answer with valid data' do
+  scenario 'Authenticated user create answer with valid data', js: true do
     sign_in(user)
 
     visit question_path(question)
@@ -18,13 +18,14 @@ feature 'Create answer', %q{
     expect(page).to have_content 'Test test test answer'
   end
 
-  scenario 'Authenticated user create answer with invalid data' do
+  scenario 'Authenticated user create answer with invalid data', js: true do
     sign_in(user)
 
     visit question_path(create(:question))
+    fill_in 'Body', with: 'invalid'
     click_on 'Create answer'
-    expect(page).to have_content "Body can't be blank"
-    expect(page).to have_content "Body is too short (minimum is 10 characters)"
+    expect(current_path).to eq question_path(question)
+    expect(page).to_not have_content "invalid"
   end
 
   scenario 'Non-authenticated user tries create answer' do

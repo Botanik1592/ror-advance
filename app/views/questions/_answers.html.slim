@@ -1,0 +1,11 @@
+- if @question.answers.present?
+  p
+    b Comments:
+    br
+    - @question.answers.each_with_index do |answer, i|
+      = "#{i+1}) #{answer.body}"
+      - if current_user && current_user.author_of?(answer)
+        br
+        = link_to 'Delete answer', answer, method: :delete, data: { confirm: 'Are you shure?' }
+      br
+      br
