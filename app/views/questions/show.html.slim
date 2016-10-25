@@ -5,16 +5,24 @@ p= @question.body
   p= link_to 'Delete question', @question, method: :delete, data: { confirm: 'Are you shure?' }
 
 br
+b Comments:
+br
 .answers
-  b Comments:
   br
   - @question.answers.each do |answer|
-      = answer.body
-      - if current_user && current_user.author_of?(answer)
-        br
-        = link_to 'Delete answer', answer, method: :delete, data: { confirm: 'Are you shure?' }
-      br
-      br
+      .one-answer style="background-color: #fff0cd; padding: 5px; margin: 10px;"
+        = answer.body
+        - if current_user && current_user.author_of?(answer)
+          br
+          = link_to 'Delete answer', answer, method: :delete, data: { confirm: 'Are you shure?' }
+          br
+          = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
+          p
+            = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
+              = f.label :body, "Answer"
+              br
+              = f.text_area :body
+              = f.submit 'Save'
 
 br
 - if user_signed_in?
