@@ -2,36 +2,25 @@
 p= @question.title
 p= @question.body
 - if current_user && current_user.author_of?(@question)
-  p= link_to 'Delete question', @question, method: :delete, data: { confirm: 'Are you shure?' }
+  p= link_to 'Delete question', @question, class: "btn btn-default", method: :delete, data: { confirm: 'Are you shure?' }
 
 br
 b Comments:
 br
 .answers
-  br
-  - @question.answers.each do |answer|
-      .one-answer style="background-color: #fff0cd; padding: 5px; margin: 10px;"
-        = answer.body
-        - if current_user && current_user.author_of?(answer)
-          br
-          = link_to 'Delete answer', answer, method: :delete, data: { confirm: 'Are you shure?' }
-          br
-          = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-          p
-            = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
-              = f.label :body, "Answer"
-              br
-              = f.text_area :body
-              = f.submit 'Save'
+  - if @question.answers.empty?
+    b No answers
+  - else
+    = render @question.answers
 
 br
 - if user_signed_in?
   = form_for [@question, @question.answers.build], remote: true do |f|
     = f.label :body
-    .answer-errors style="color: red;"
+    .answers-errors style="color: red;"
     <br>
     = f.text_area :body
     <br>
-    = f.submit 'Create answer'
+    = f.submit 'Create answer', class: "btn btn-default"
 - else
   i You must sign in first for create answer

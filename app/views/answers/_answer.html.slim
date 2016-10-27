@@ -1,7 +1,17 @@
 .answer
-  = answer.body
-  - if current_user && current_user.author_of?(answer)
-  br
-  = link_to 'Delete answer', answer, method: :delete, data: { confirm: 'Are you shure?' }
-  br
-  br
+  .one-answer style="background-color: #fff0cd; padding: 5px; margin: 10px;"
+    p id="edited-answer-#{answer.id}"
+      = answer.body
+    - if current_user && current_user.author_of?(answer)
+      br
+      = link_to 'Delete answer', answer, class: "btn btn-default", method: :delete, data: { confirm: 'Are you shure?' }
+      = link_to 'Edit', '#', class: 'edit-answer-link btn btn-default', data: { answer_id: answer.id }
+      p
+        br
+        .answer-errors style="color: red;"
+        = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
+          = f.label :body, "Edit answer:"
+          br
+          = f.text_area :body
+          br
+          = f.submit 'Save'
