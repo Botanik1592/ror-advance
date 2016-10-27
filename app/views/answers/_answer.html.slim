@@ -1,11 +1,11 @@
-.answer
+.answer id="answer-#{answer.id}"
   .one-answer style="background-color: #fff0cd; padding: 5px; margin: 10px;"
     p id="edited-answer-#{answer.id}"
       = answer.body
     - if current_user && current_user.author_of?(answer)
       br
-      = link_to 'Delete answer', answer, class: "btn btn-default", method: :delete, data: { confirm: 'Are you shure?' }
-      = link_to 'Edit', '#', class: 'edit-answer-link btn btn-default', data: { answer_id: answer.id }
+      = link_to 'Delete answer', answer, class: "btn btn-danger", method: :delete, remote: true, data: { answer_id: answer.id, confirm: 'Are you shure?' }
+      = link_to 'Edit answer', '#', class: 'edit-answer-link btn btn-info', data: { answer_id: answer.id }
       p
         br
         .answer-errors style="color: red;"
@@ -14,4 +14,4 @@
           br
           = f.text_area :body
           br
-          = f.submit 'Save'
+          = f.submit 'Save', class: "btn btn-primary"

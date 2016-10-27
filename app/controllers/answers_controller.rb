@@ -10,17 +10,11 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer.update(answer_params)
+    @answer.update(answer_params) if current_user.author_of?(@answer)
   end
 
   def destroy
-    if current_user.author_of?(@answer)
-      @answer.destroy
-      flash[:notice] = 'Answer successfully deleted.'
-    else
-      flash[:notice] = "You can not remove a foreign matter!"
-    end
-    redirect_to @answer.question
+    @answer.destroy if current_user.author_of?(@answer)
   end
 
   private

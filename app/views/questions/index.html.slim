@@ -1,4 +1,4 @@
-p= link_to 'New question', new_question_path
+p= link_to 'New question', new_question_path, class: "btn btn-info"
 br
 - if @questions.empty?
   b No questions found
@@ -8,6 +8,6 @@ br
     br
     = question.body
     br
-    = link_to 'Show question', question
+    = link_to 'Show question', question, class: "btn btn-primary"
     hr
     br

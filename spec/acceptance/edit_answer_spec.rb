@@ -24,7 +24,7 @@ feature 'Answer editing', %q{
     end
 
     scenario 'Answer author try to edit answer', js: true do
-      click_on 'Edit'
+      click_on 'Edit answer'
       fill_in 'Edit answer:', with: 'Edited answer', match: :first
       click_on 'Save'
 

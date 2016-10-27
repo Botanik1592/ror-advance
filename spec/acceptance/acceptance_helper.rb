@@ -1,8 +1,11 @@
 require 'rails_helper'
 
-Capybara.default_max_wait_time = 5
+Capybara.javascript_driver      = :webkit
+Capybara.default_max_wait_time  = 5
+Capybara.ignore_hidden_elements = true
 
 RSpec.configure do |config|
+
   config.use_transactional_fixtures = false
 
   config.before(:suite) do

@@ -1,8 +1,26 @@
 = render 'common/errors', resource: @answer
-p= @question.title
-p= @question.body
+.question-errors
+p id="edited-question-title"
+  = @question.title
+p id="edited-question-body"
+  = @question.body
 - if current_user && current_user.author_of?(@question)
-  p= link_to 'Delete question', @question, class: "btn btn-default", method: :delete, data: { confirm: 'Are you shure?' }
+  br
+  = link_to 'Delete question', @question, class: "btn btn-danger", method: :delete, data: { confirm: 'Are you shure?' }
+  = link_to 'Edit', '#', class: 'edit-question-link btn btn-info', data: { question_id: @question.id }
+  p
+    br
+    .question-errors style="color: red;"
+    = form_for @question, remote: true, html: { id: "edit-question-#{@question.id}"} do |f|
+      = f.label :title, "Edit title:"
+      br
+      = f.text_field :title
+      br
+      = f.label :body, "Edit question:"
+      br
+      = f.text_area :body
+      br
+      = f.submit 'Save', class: "btn btn-primary"
 
 br
 b Comments:
@@ -14,13 +32,14 @@ br
     = render @question.answers
 
 br
-- if user_signed_in?
-  = form_for [@question, @question.answers.build], remote: true do |f|
-    = f.label :body
+.new_answer_div
+  - if user_signed_in?
     .answers-errors style="color: red;"
-    <br>
-    = f.text_area :body
-    <br>
-    = f.submit 'Create answer', class: "btn btn-default"
-- else
-  i You must sign in first for create answer
+    = form_for [@question, @question.answers.build], remote: true do |f|
+      = f.label :body, 'Your Answer'
+      <br>
+      = f.text_area :body, id: "new-answer-body"
+      <br>
+      = f.submit 'Create answer', class: "btn btn-primary"
+  - else
+    i You must sign in first for create answer
