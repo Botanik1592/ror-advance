@@ -8,10 +8,8 @@ class Answer < ApplicationRecord
 
   def mark_best
     transaction do
-      question.answers.where(best: true).each do |answer|
-        answer.update!(best: false)
-      end
-      update_attributes!(best: true)
+      Answer.where(question_id: self.question.id, best: true).update_all(best: false)
+      self.update!(best: true)
     end
   end
 end

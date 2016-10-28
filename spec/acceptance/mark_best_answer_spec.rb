@@ -20,17 +20,19 @@ feature 'Mark best answer', %q{
 
     within "#answer-#{answer3.id}" do
       click_link 'Mark best'
+
+      expect(page).to have_content 'Best answer!'
+      expect(page).to have_content answer3.body
+      expect(page).to have_content 'This is BEST anwser'
     end
-    sleep(2)
-    best_answer = page.find(:css, '.answer', match: :first)
-    expect(best_answer.text).to have_content answer3.body
-    expect(best_answer.text).to have_content 'This is BEST anwser'
 
     within "#answer-#{answer1.id}" do
+      expect(page).to_not have_content 'Best answer!'
       expect(page).to_not have_content 'This is BEST anwser'
     end
 
     within "#answer-#{answer2.id}" do
+      expect(page).to_not have_content 'Best answer!'
       expect(page).to_not have_content 'This is BEST anwser'
     end
   end
