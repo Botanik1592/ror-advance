@@ -1,13 +1,19 @@
-p= link_to 'New question', new_question_path, class: "btn btn-info"
+div class="row"
+  = link_to 'New question', new_question_path, class: "btn btn-info"
 br
-- if @questions.empty?
-  b No questions found
-- else
-  - @questions.each do |question|
-    b= question.title
-    br
-    = question.body
-    br
-    = link_to 'Show question', question, class: "btn btn-primary"
-    hr
-    br
+div class="row>"
+  - if @questions.empty?
+    b No questions found
+  - else
+    - @questions.each do |question|
+      div class="row"
+        b= raw(question.title)
+      div class="row"
+        = raw(question.body)
+      div class="row"
+        br
+        = link_to 'Show question', question, class: "btn btn-primary"
+      div class="row"
+        hr
+
+

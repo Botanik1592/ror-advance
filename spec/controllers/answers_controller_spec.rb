@@ -94,4 +94,41 @@ RSpec.describe AnswersController, type: :controller do
       expect(response).to render_template :update
     end
   end
+
+  describe 'PATCH #make_best' do
+    let(:user)     { create(:user) }
+    let(:question) { user.questions.create(title: 'This Is Question Title', body: 'This Is Question Body') }
+    let!(:answer1)  { question.answers.create(body: 'My answer body 1', user: user) }
+    let!(:answer2)  { question.answers.create(body: 'My answer body 2', user: user) }
+    let!(:answer3)  { question.answers.create(body: 'My answer body 3', user: user) }
+
+    context "question author" do
+      before { sign_in question.user }
+
+      it "assings the answer eq @answer" do
+        patch :mark_best, params: { id: answer1.id, best: true, format: :js }
+        expect(assigns(:answer)).to eq answer1
+      end
+
+      it "mark answer's 'best' attribute to be true" do
+        patch :mark_best, params: { id: answer1.id, best: true, format: :js }
+        answer1.reload
+        expect(answer1).to be_best
+      end
+
+      it "render best template" do
+        patch :mark_best, params: { id: answer1.id, best: true, format: :js }
+        expect(response).to render_template :mark_best
+      end
+    end
+
+    context 'not question author try mark best answer' do
+      sign_in_user
+
+      it 'does not answer mark best' do
+        patch :mark_best, params: { id: answer1.id, best: true, format: :js }
+        expect(assigns(:answer).best?).not_to eq (true)
+      end
+    end
+  end
 end

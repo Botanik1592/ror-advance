@@ -1,17 +1,30 @@
 .answer id="answer-#{answer.id}"
   .one-answer style="background-color: #fff0cd; padding: 5px; margin: 10px;"
     p id="edited-answer-#{answer.id}"
-      = answer.body
-    - if current_user && current_user.author_of?(answer)
+      - if answer.best?
+        p
+          div class="row"
+            div class="col-md-4" style="color: #084c06;"
+              img src="/best.png" width="15px" style="display: inline; margin-right: 10px;"
+              b Best answer!
+              br
+              br
+      = raw(answer.body)
+    div class="row"
+      - if current_user && current_user.author_of?(answer)
+        div class="col-md-2"
+          = link_to 'Delete answer', answer, class: "btn btn-danger", method: :delete, remote: true, data: { answer_id: answer.id, confirm: 'Are you shure?' }
+        div class="col-md-2"
+          = link_to 'Edit answer', '#', class: 'edit-answer-link btn btn-info', data: { answer_id: answer.id }
+      - if current_user && current_user.author_of?(answer.question)
+        div class="col-md-2"
+          = link_to 'Mark best', mark_best_answer_path(answer), class: "btn btn-success", method: :patch, remote: true
+
       br
-      = link_to 'Delete answer', answer, class: "btn btn-danger", method: :delete, remote: true, data: { answer_id: answer.id, confirm: 'Are you shure?' }
-      = link_to 'Edit answer', '#', class: 'edit-answer-link btn btn-info', data: { answer_id: answer.id }
-      p
+      .answer-errors style="color: red;"
+      = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
+        = f.label :body, "Edit answer:"
         br
-        .answer-errors style="color: red;"
-        = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
-          = f.label :body, "Edit answer:"
-          br
-          = f.text_area :body
-          br
-          = f.submit 'Save', class: "btn btn-primary"
+        = f.text_area :body, class: "form-control"
+        br
+        = f.submit 'Save', class: "btn btn-primary"

@@ -1,28 +1,29 @@
 = render 'common/errors', resource: @answer
 .question-errors
 p id="edited-question-title"
-  = @question.title
+  b= raw(@question.title)
 p id="edited-question-body"
-  = @question.body
+  = raw(@question.body)
 - if current_user && current_user.author_of?(@question)
-  br
-  = link_to 'Delete question', @question, class: "btn btn-danger", method: :delete, data: { confirm: 'Are you shure?' }
-  = link_to 'Edit', '#', class: 'edit-question-link btn btn-info', data: { question_id: @question.id }
+  div class="row"
+    div class="col-md-2"
+      = link_to 'Delete question', @question, class: "btn btn-danger", method: :delete, data: { confirm: 'Are you shure?' }
+    div class="col-md-2"
+      = link_to 'Edit', '#', class: 'edit-question-link btn btn-info', data: { question_id: @question.id }
   p
     br
     .question-errors style="color: red;"
     = form_for @question, remote: true, html: { id: "edit-question-#{@question.id}"} do |f|
       = f.label :title, "Edit title:"
       br
-      = f.text_field :title
+      = f.text_field :title, class: "form-control"
       br
       = f.label :body, "Edit question:"
       br
-      = f.text_area :body
+      = f.text_area :body, class: "form-control"
       br
       = f.submit 'Save', class: "btn btn-primary"
 
-br
 b Comments:
 br
 .answers
@@ -38,7 +39,7 @@ br
     = form_for [@question, @question.answers.build], remote: true do |f|
       = f.label :body, 'Your Answer'
       <br>
-      = f.text_area :body, id: "new-answer-body"
+      = f.text_area :body, id: "new-answer-body", class: "form-control"
       <br>
       = f.submit 'Create answer', class: "btn btn-primary"
   - else
