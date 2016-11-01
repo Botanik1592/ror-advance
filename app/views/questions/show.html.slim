@@ -4,6 +4,11 @@ p id="edited-question-title"
   b= raw(@question.title)
 p id="edited-question-body"
   = raw(@question.body)
+p
+  b Attachments:
+  ul
+    - @question.attachments.each do |a|
+      li= a.file.file.filename
 - if current_user && current_user.author_of?(@question)
   div class="row"
     div class="col-md-2"
