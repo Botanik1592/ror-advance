@@ -33,6 +33,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'slim'
 gem 'devise'
 gem "twitter-bootstrap-rails"
+gem "carrierwave"
 
 group :test, :development do
   gem 'rspec-rails'
