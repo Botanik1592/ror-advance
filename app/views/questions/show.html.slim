@@ -5,10 +5,18 @@ p id="edited-question-title"
 p id="edited-question-body"
   = raw(@question.body)
 p
-  b Attachments:
-  ul
-    - @question.attachments.each do |a|
-      li= link_to a.file.identifier, a.file.url, target: "blank"
+  .attachments_question_files
+    b Attachments:
+    table border="0"
+      - @question.attachments.each do |a|
+        tr id="attachment-#{a.id}"
+          - if current_user && current_user.author_of?(@question)
+            td style="padding-left: 10px; padding-bottom: 10px;"
+              = link_to 'X', attachment_path(a), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: "btn btn-sm btn-danger"
+          td style="padding-left: 15px; padding-bottom: 10px;"
+            = link_to a.file.identifier, a.file.url, target: "blank"
+
+
 - if current_user && current_user.author_of?(@question)
   div class="row"
     div class="col-md-2"

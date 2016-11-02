@@ -5,4 +5,8 @@ module AcceptanceHelper
     fill_in 'Password', with: user.password
     click_on 'Log in'
   end
+
+  def logoff
+    click_on 'Sign out'
+  end
 end
