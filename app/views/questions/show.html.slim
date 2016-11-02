@@ -29,23 +29,29 @@ p
       br
       = f.submit 'Save', class: "btn btn-primary"
 
-b Comments:
 br
 .answers
   - if @question.answers.empty?
     b No answers
   - else
+    b Comments:
     = render @question.answers
 
 br
 .new_answer_div
   - if user_signed_in?
     .answers-errors style="color: red;"
-    = form_for [@question, @question.answers.build], remote: true do |f|
+    = form_for [@question, @answer], remote: true do |f|
       = f.label :body, 'Your Answer'
-      <br>
+      br
       = f.text_area :body, id: "new-answer-body", class: "form-control"
-      <br>
+      br
+      = f.fields_for :attachments do |a|
+        .nested_form
+          = a.label :file
+          = a.file_field :file
+      br
+      br
       = f.submit 'Create answer', class: "btn btn-primary"
   - else
     i You must sign in first for create answer
