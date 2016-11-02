@@ -11,10 +11,12 @@
                 br
                 br
         = raw(answer.body)
-        ul
-          - answer.attachments.each do |a|
-            li= link_to a.file.identifier, a.file.url
-      div class="row"
+        p
+          b Attachments:
+          ul
+            - answer.attachments.each do |a|
+              li= link_to a.file.identifier, a.file.url
+      div class="container"
         - if current_user && current_user.author_of?(answer)
           div class="col-md-2"
             = link_to 'Delete answer', answer, class: "btn btn-danger", method: :delete, remote: true, data: { answer_id: answer.id, confirm: 'Are you shure?' }
@@ -30,5 +32,7 @@
           = f.label :body, "Edit answer:"
           br
           = f.text_area :body, class: "form-control"
+          br
+          = render 'application/attachment_form', f: f
           br
           = f.submit 'Save', class: "btn btn-primary"

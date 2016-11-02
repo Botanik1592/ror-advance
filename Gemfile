@@ -31,10 +31,11 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'slim'
+gem 'twitter-bootstrap-rails'
+gem 'carrierwave'
+gem 'remotipart'
+gem 'cocoon'
 gem 'devise'
-gem "twitter-bootstrap-rails"
-gem "carrierwave"
-gem "remotipart"
 
 group :test, :development do
   gem 'rspec-rails'

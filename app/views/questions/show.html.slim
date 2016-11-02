@@ -8,7 +8,7 @@ p
   b Attachments:
   ul
     - @question.attachments.each do |a|
-      li= link_to a.file.identifier, a.file.url
+      li= link_to a.file.identifier, a.file.url, target: "blank"
 - if current_user && current_user.author_of?(@question)
   div class="row"
     div class="col-md-2"
@@ -26,6 +26,8 @@ p
       = f.label :body, "Edit question:"
       br
       = f.text_area :body, class: "form-control"
+      br
+      = render 'application/attachment_form', f: f, target: @question
       br
       = f.submit 'Save', class: "btn btn-primary"
 
@@ -46,11 +48,7 @@ br
       br
       = f.text_area :body, id: "new-answer-body", class: "form-control"
       br
-      = f.fields_for :attachments do |a|
-        .nested_form
-          = a.label :file
-          = a.file_field :file
-      br
+      = render 'application/attachment_form', f: f
       br
       = f.submit 'Create answer', class: "btn btn-primary"
   - else
