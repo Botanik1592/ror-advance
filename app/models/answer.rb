@@ -1,8 +1,11 @@
 class Answer < ApplicationRecord
   belongs_to :question
   belongs_to :user
+  has_many :attachments, as: :attachmentable
 
   validates :body, presence: true, length: { minimum: 10 }
+
+  accepts_nested_attributes_for :attachments, reject_if: :all_balank
 
   default_scope { order('best DESC') }
 
