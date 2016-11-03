@@ -113,4 +113,52 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #update' do
+    sign_in_user
+
+    context 'is author' do
+      let(:question) { @user.questions.create(title: 'This Is Question Title', body: 'This Is Question Body') }
+      let(:params) do {
+        id: question,
+        question: { title: 'New question title', body: 'New question body' }
+        }
+      end
+
+      it 'assings the requested answer to @question' do
+        patch :update, params: params, format: :js
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'changes answer attributes' do
+        patch :update, params: params, format: :js
+        question.reload
+        expect(question.title).to eq 'New question title'
+        expect(question.body).to eq 'New question body'
+      end
+
+      it 'render update template' do
+        patch :update, params: params, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'is not author' do
+      let(:user) { create(:user) }
+      let(:question) { user.questions.create(title: 'My question title', body: 'My question body') }
+      let(:params) do {
+        id: question,
+        question: { title: 'New question title', body: 'New question body' }
+        }
+      end
+
+      it 'does not change question attributes' do
+        patch :update, params: params, format: :js
+        question.reload
+        expect(question.title).to_not eq 'New question title'
+        expect(question.body).to_not eq 'New question body'
+      end
+
+    end
+  end
 end

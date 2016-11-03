@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'User delete answer', %q{
   User delete answer
@@ -7,7 +7,7 @@ feature 'User delete answer', %q{
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
 
-  scenario 'Authenticated user try delete his answer' do
+  scenario 'Authenticated user try delete his answer', js: true do
     sign_in(user)
 
     answer = create(:answer, user: user, question: question)
@@ -15,11 +15,10 @@ feature 'User delete answer', %q{
     visit question_path(question)
     click_on 'Delete answer'
 
-    expect(page).to have_content 'Answer successfully deleted.'
     expect(page).to_not have_content answer.body
   end
 
-  scenario 'Authenticated user tries to remove a foreign answer' do
+  scenario 'Authenticated user tries to remove a foreign answer', js: true do
     user2 = create(:user)
     question2 = create(:question, user: user2)
 

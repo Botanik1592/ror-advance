@@ -1,23 +1,26 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :destroy]
+  before_action :authenticate_user!, only: [:create, :destroy, :update]
   before_action :set_question, only: [:create]
-  before_action :set_answer, only: [:destroy]
+  before_action :set_answer, only: [:destroy, :update, :mark_best]
 
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
-
     @answer.save
   end
 
+  def update
+    @answer.update(answer_params) if current_user.author_of?(@answer)
+  end
+
   def destroy
-    if current_user.author_of?(@answer)
-      @answer.destroy
-      flash[:notice] = 'Answer successfully deleted.'
-    else
-      flash[:notice] = "You can not remove a foreign matter!"
+    @answer.destroy if current_user.author_of?(@answer)
+  end
+
+  def mark_best
+    if current_user.author_of?(@answer.question)
+      @answer.mark_best
     end
-    redirect_to @answer.question
   end
 
   private

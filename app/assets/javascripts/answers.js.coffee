@@ -3,11 +3,12 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 ready = ->
-  $('.edit-question-link').click (e) ->
+  $('.edit-answer-link').click (e) ->
     e.preventDefault();
     $(this).hide();
-    question_id = $(this).data('questionId')
-    $('form#edit-question-' + question_id).show();
+    answer_id = $(this).data('answerId')
+    $('#edited-answer-' + answer_id).hide();
+    $('form#edit-answer-' + answer_id).show();
 
 $(document).ready(ready)
 $(document).on('page:load', ready)

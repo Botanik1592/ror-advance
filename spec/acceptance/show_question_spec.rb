@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'Show question', %q{
   User can view question and answers
@@ -15,8 +15,8 @@ feature 'Show question', %q{
 
     expect(page).to have_content 'ThisIsMyString'
     expect(page).to have_content 'ThisIsMyText'
-    expect(page).to have_content 'ThisIsMyAnswer2'
-    expect(page).to have_content 'ThisIsMyAnswer3'
+    expect(page).to have_content 'ThisIsMyAnswer6'
+    expect(page).to have_content 'ThisIsMyAnswer7'
 
   end
 end

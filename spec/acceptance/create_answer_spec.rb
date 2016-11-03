@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'acceptance_helper'
 
 feature 'Create answer', %q{
   As an authenticated user
@@ -12,7 +12,8 @@ feature 'Create answer', %q{
     sign_in(user)
 
     visit question_path(question)
-    fill_in 'Body', with: 'Test test test answer'
+
+    fill_in 'new-answer-body', with: 'Test test test answer'
     click_on 'Create answer'
 
     expect(page).to have_content 'Test test test answer'
@@ -22,7 +23,8 @@ feature 'Create answer', %q{
     sign_in(user)
 
     visit question_path(question)
-    fill_in 'Body', with: 'invalid'
+
+    fill_in 'new-answer-body', with: 'invalid'
     click_on 'Create answer'
 
     expect(current_path).to eq question_path(question)
