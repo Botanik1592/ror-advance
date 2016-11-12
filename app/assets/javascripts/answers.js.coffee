@@ -10,6 +10,20 @@ ready = ->
     $('#edited-answer-' + answer_id).hide();
     $('form#edit-answer-' + answer_id).show();
 
+  $('.rateup').on 'ajax:success', (e, data, status, xhr) ->
+    id = $(this).data('targetId');
+    rating = $.parseJSON(xhr.responseText);
+    $('#answer-rating-' + id).html(rating.show_rate);
+    $('#answer-rateup-' + id).attr('disabled', true);
+    $('#answer-ratedown-' + id).attr('disabled', false);
+
+  $('.ratedown').on 'ajax:success', (e, data, status, xhr) ->
+    id = $(this).data('targetId');
+    rating = $.parseJSON(xhr.responseText);
+    $('#answer-rating-' + id).html(rating.show_rate);
+    $('#answer-ratedown-' + id).attr('disabled', true);
+    $('#answer-rateup-' + id).attr('disabled', false);
+
 $(document).ready(ready)
 $(document).on('page:load', ready)
 $(document).on('page:update', ready)
