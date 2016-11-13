@@ -34,11 +34,13 @@
         - else
           div class="btn-group" role="group"
             - if user_signed_in?
-              = link_to "+", rate_up_answer_path(answer), method: :patch, remote: :true, class: "rateup btn btn-default btn-xs", disabled: answer.has_plus_rate?(current_user), id: "answer-rateup-#{answer.id}", data: { type: :json, target_id: answer.id }
+              = link_to "+", rate_up_answer_path(answer), method: :patch, remote: :true, class: "rateup btn btn-default btn-xs ratelink", disabled: answer.has_plus_rate?(current_user), id: "answer-rateup-#{answer.id}", data: { type: :json, target_id: answer.id }
               button class="btn btn-default btn-xs disabled" id="answer-rating-#{answer.id}" #{answer.show_rate}
-              = link_to "-", rate_down_answer_path(answer), method: :patch, remote: :true, class: "ratedown btn btn-default btn-xs", disabled: answer.has_minus_rate?(current_user), id: "answer-ratedown-#{answer.id}", data: { type: :json, target_id: answer.id }
+              = link_to "-", rate_down_answer_path(answer), method: :patch, remote: :true, class: "ratedown btn btn-default btn-xs ratelink", disabled: answer.has_minus_rate?(current_user), id: "answer-ratedown-#{answer.id}", data: { type: :json, target_id: answer.id }
             - else
               button class="btn btn-default btn-xs disabled" id="answer-rating-#{answer.id}" #{answer.show_rate}
+            div class="btn-group" role="group"
+              p id="answer-set-rating-error-#{answer.id}"
         - if current_user && current_user.author_of?(answer.question)
           div class="btn-group" role="group"
             = link_to 'Mark best', mark_best_answer_path(answer), method: :patch, remote: true, class: "btn btn-success btn-xs", data: { answer_id: answer.id }

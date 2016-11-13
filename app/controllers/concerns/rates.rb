@@ -6,13 +6,23 @@ module Rates
   end
 
   def rate_up
-    @ratable.rate_up(current_user)
-    render json: {show_rate: @ratable.show_rate}.to_json
+    error = @ratable.rate_up(current_user)
+
+    if error[0] == false
+      render json: error, status: :unprocessable_entity
+    else
+      render json: {show_rate: @ratable.show_rate}
+    end
   end
 
   def rate_down
-    @ratable.rate_down(current_user)
-    render json: {show_rate: @ratable.show_rate}.to_json
+    error = @ratable.rate_down(current_user)
+
+    if error[0] == false
+      render json: error, status: :unprocessable_entity
+    else
+      render json: {show_rate: @ratable.show_rate}
+    end
   end
 
   private

@@ -24,6 +24,11 @@ ready = ->
     $('#answer-ratedown-' + id).attr('disabled', true);
     $('#answer-rateup-' + id).attr('disabled', false);
 
+  $('.ratelink').on 'ajax:error', (e, xhr, status, error) ->
+    id = $(this).data('targetId');
+    error = $.parseJSON(xhr.responseText);
+    $('#answer-set-rating-error-' + id).html(error[1]);
+
 $(document).ready(ready)
 $(document).on('page:load', ready)
 $(document).on('page:update', ready)

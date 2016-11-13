@@ -23,6 +23,8 @@ ready = ->
     $('#question-ratedown-' + id).attr('disabled', true);
     $('#question-rateup-' + id).attr('disabled', false);
 
+
+
 $(document).ready(ready)
 $(document).on('page:load', ready)
 $(document).on('page:update', ready)
