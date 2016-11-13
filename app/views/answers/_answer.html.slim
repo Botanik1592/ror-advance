@@ -18,9 +18,9 @@
               table border="0"
                 - answer.attachments.each do |a|
                   tr id="attachment-#{a.id}"
-                    - if current_user && current_user.author_of?(@question)
+                    - if current_user && current_user.author_of?(answer)
                       td style="padding-left: 10px; padding-bottom: 10px;"
-                        = link_to 'X', attachment_path(a), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: "btn btn-sm btn-danger"
+                        = link_to 'X', attachment_path(a), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: "btn btn-xs btn-danger"
                     td style="padding-left: 15px; padding-bottom: 10px;"
                       = link_to a.file.identifier, a.file.url, target: "blank"
 
