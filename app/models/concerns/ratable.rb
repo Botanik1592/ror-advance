@@ -37,9 +37,9 @@ module Ratable
 
   def rate(user, vote)
     if user.author_of?(self)
-      error = [false, "You can't vote for this!"]
+      error = [true, "You can't vote for this!"]
     else
-      del_rate(user) if has_minus_rate?(user) || has_plus_rate?(user)
+      del_rate(user) if has_rate?(user)
       ratings.create(user: user, ratings: vote)
     end
   end
