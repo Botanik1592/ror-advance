@@ -9,7 +9,7 @@ module Rates
     error = @ratable.rate_up(current_user)
 
     if error[0] == false
-      render json: error, status: :unprocessable_entity
+      render json: error, status: :forbidden
     else
       render json: {show_rate: @ratable.show_rate}
     end
@@ -19,7 +19,7 @@ module Rates
     error = @ratable.rate_down(current_user)
 
     if error[0] == false
-      render json: error, status: :unprocessable_entity
+      render json: error, status: :forbidden
     else
       render json: {show_rate: @ratable.show_rate}
     end

@@ -1,6 +1,9 @@
 require 'rails_helper'
+require_relative 'concerns/rated_spec'
 
 RSpec.describe QuestionsController, type: :controller do
+
+  it_behaves_like 'rated'
 
   let(:question) { create(:question) }
 
