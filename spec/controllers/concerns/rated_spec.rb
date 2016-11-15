@@ -6,12 +6,12 @@ shared_examples 'rated' do
 
     let(:model) { create(described_class.controller_name.classify.underscore.to_sym) }
 
-    context "Rate at another post/answer" do
-      let(:params) do {
+    let(:params) do {
         id: model.id, format: :json
-        }
-      end
+      }
+    end
 
+    context "Rate at another post/answer" do
       it "assigns the answer/post to @ratable" do
         patch :rate_up, params: params
         expect(assigns(:ratable)).to eq model
@@ -24,10 +24,6 @@ shared_examples 'rated' do
 
     context "Rate at own post/answer" do
       let(:model) { create(described_class.controller_name.classify.underscore.to_sym, user: @user) }
-      let(:params) do {
-          id: model.id, format: :json
-        }
-      end
 
       it "assigns the answer/post to @ratable" do
         patch :rate_up, params: params
@@ -40,10 +36,6 @@ shared_examples 'rated' do
     end
 
     context "Post/answer already have rate up" do
-      let(:params) do {
-        id: model.id, format: :json
-        }
-      end
 
       before { model.ratings.create(user: @user, ratings: 1) }
 
@@ -58,10 +50,6 @@ shared_examples 'rated' do
     end
 
     context "Post/answer already have rate down" do
-      let(:params) do {
-        id: model.id, format: :json
-        }
-      end
 
       before { model.ratings.create(user: @user, ratings: -1) }
 
@@ -81,12 +69,12 @@ shared_examples 'rated' do
 
     let(:model) { create(described_class.controller_name.classify.underscore.to_sym) }
 
-    context "Rate at another post/answer" do
-      let(:params) do {
+    let(:params) do {
         id: model.id, format: :json
-        }
-      end
+      }
+    end
 
+    context "Rate at another post/answer" do
       it "assigns the answer/post to @ratable" do
         patch :rate_up, params: params
         expect(assigns(:ratable)).to eq model
@@ -99,10 +87,6 @@ shared_examples 'rated' do
 
     context "Rate at own post/answer" do
       let(:model) { create(described_class.controller_name.classify.underscore.to_sym, user: @user) }
-      let(:params) do {
-          id: model.id, format: :json
-        }
-      end
 
       it "assigns the answer/post to @ratable" do
         patch :rate_down, params: params
@@ -115,10 +99,6 @@ shared_examples 'rated' do
     end
 
     context "Post/answer already have rate down" do
-      let(:params) do {
-        id: model.id, format: :json
-        }
-      end
 
       before { model.ratings.create(user: @user, ratings: -1) }
 
@@ -133,10 +113,6 @@ shared_examples 'rated' do
     end
 
     context "Post/answer already have rate up" do
-      let(:params) do {
-        id: model.id, format: :json
-        }
-      end
 
       before { model.ratings.create(user: @user, ratings: 1) }
 
