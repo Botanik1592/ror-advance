@@ -17,12 +17,19 @@ shared_examples 'ratable' do
 
     it "rate up another user answer/post" do
        expect{ model.rate_up(user2) }.to change{ model.show_rate }.by(1)
-       expect(model.ratings.first.ratings).to eq 1
     end
 
     it "rate up his answer/post" do
       expect{ model.rate_up(user) }.to_not change{ model.show_rate }
     end
+
+    it "send error Hash if user rate up his answer/post" do
+      expect(model.rate_up(user)).to include("You can't vote for this!")
+    end
+
+    # it "send 1 if user rate_up another answer/post" do
+    #   expect(model.rate_up(user2)).to include([ratings: 1])
+    # end
 
     context "rate up when rate_up already exists" do
       before { create(:rating, ratings: 1, ratable: model, user: user2) }
@@ -43,7 +50,6 @@ shared_examples 'ratable' do
 
     it "rate down another user answer/post" do
       expect{ model.rate_down(user2) }.to change{ model.show_rate }.by(-1)
-      expect(model.ratings.first.ratings).to eq -1
     end
 
     it "rate down his answer/post" do
