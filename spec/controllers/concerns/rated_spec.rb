@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 shared_examples 'rated' do
   describe 'PATCH #rate_up' do
     sign_in_user
