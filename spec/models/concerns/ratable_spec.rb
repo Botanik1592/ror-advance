@@ -15,12 +15,13 @@ shared_examples 'ratable' do
     let(:user2) { create(:user) }
     let(:model) { create(described_class.to_s.underscore.to_sym, user: user) }
 
-    context "rate up another user answer/post" do
-      it { expect{ model.rate_up(user2) }.to change{ model.show_rate }.by(1) }
+    it "rate up another user answer/post" do
+       expect{ model.rate_up(user2) }.to change{ model.show_rate }.by(1)
+       expect(model.ratings.first.ratings).to eq 1
     end
 
-    context "rate up his answer/post" do
-      it { expect{ model.rate_up(user) }.to_not change{ model.show_rate } }
+    it "rate up his answer/post" do
+      expect{ model.rate_up(user) }.to_not change{ model.show_rate }
     end
 
     context "rate up when rate_up already exists" do
@@ -40,12 +41,13 @@ shared_examples 'ratable' do
     let(:user2) { create(:user) }
     let(:model) { create(described_class.to_s.underscore.to_sym, user: user) }
 
-    context "rate down another user answer/post" do
-      it { expect{ model.rate_down(user2) }.to change{ model.show_rate }.by(-1) }
+    it "rate down another user answer/post" do
+      expect{ model.rate_down(user2) }.to change{ model.show_rate }.by(-1)
+      expect(model.ratings.first.ratings).to eq -1
     end
 
-    context "rate down his answer/post" do
-      it { expect { model.rate_down(user) }.to_not change{ model.show_rate} }
+    it "rate down his answer/post" do
+      expect { model.rate_down(user) }.to_not change{ model.show_rate}
     end
 
     context "rate down when rate_down already exists" do
