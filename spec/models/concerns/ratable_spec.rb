@@ -3,10 +3,12 @@ shared_examples 'ratable' do
   let(:model) { create(described_class.to_s.underscore.to_sym) }
 
   describe "#show_rate" do
-    before { 5.times {create(:rating, ratings: 1, ratable: model, user: create(:user)) } }
-    before { 2.times {create(:rating, ratings: -1, ratable: model, user: create(:user)) } }
+    it "show rate of answe/question" do
+      create_list(:rating, 5, ratings: 1, ratable: model)
+      create_list(:rating, 2, ratings: -1, ratable: model)
 
-    it { expect(model.show_rate).to eq(3) }
+      expect(model.show_rate).to eq(3)
+    end
   end
 
   describe "#rate_up" do
@@ -20,6 +22,18 @@ shared_examples 'ratable' do
     context "rate up his answer/post" do
       it { expect{ model.rate_up(user) }.to_not change{ model.show_rate } }
     end
+
+    context "rate up when rate_up already exists" do
+      before { create(:rating, ratings: 1, ratable: model, user: user2) }
+
+      it { expect{ model.rate_up(user2) }.to_not change{ model.show_rate} }
+    end
+
+    context "rate up when rate_down already exists" do
+      before { create(:rating, ratings: -1, ratable: model, user: user2) }
+
+      it { expect{ model.rate_up(user2) }.to change{ model.show_rate}.by (2) }
+    end
   end
 
   describe "#rate_down" do
@@ -32,6 +46,18 @@ shared_examples 'ratable' do
 
     context "rate down his answer/post" do
       it { expect { model.rate_down(user) }.to_not change{ model.show_rate} }
+    end
+
+    context "rate down when rate_down already exists" do
+      before { create(:rating, ratings: -1, ratable: model, user: user2) }
+
+      it { expect{ model.rate_down(user2) }.to_not change{ model.show_rate} }
+    end
+
+    context "rate down when rate_up already exists" do
+      before { create(:rating, ratings: 1, ratable: model, user: user2) }
+
+      it { expect{ model.rate_down(user2) }.to change{ model.show_rate}.by (-2) }
     end
   end
 
