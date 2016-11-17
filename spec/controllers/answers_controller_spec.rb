@@ -1,6 +1,9 @@
 require 'rails_helper'
+require_relative 'concerns/rated_spec'
 
 RSpec.describe AnswersController, type: :controller do
+
+  it_behaves_like 'rated'
 
   describe 'POST #create' do
     let(:question) { create(:question, user: @user) }

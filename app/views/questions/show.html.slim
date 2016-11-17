@@ -4,25 +4,24 @@ p id="edited-question-title"
   b= raw(@question.title)
 p id="edited-question-body"
   = raw(@question.body)
-p
-  .attachments_question_files
-    b Attachments:
-    table border="0"
-      - @question.attachments.each do |a|
-        tr id="attachment-#{a.id}"
-          - if current_user && current_user.author_of?(@question)
-            td style="padding-left: 10px; padding-bottom: 10px;"
-              = link_to 'X', attachment_path(a), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: "btn btn-sm btn-danger"
-          td style="padding-left: 15px; padding-bottom: 10px;"
-            = link_to a.file.identifier, a.file.url, target: "blank"
-
+- if @question.attachments.present?
+  p
+    .attachments_question_files
+      b Attachments:
+      table border="0"
+        - @question.attachments.each do |a|
+          tr id="attachment-#{a.id}"
+            - if current_user && current_user.author_of?(@question)
+              td style="padding-left: 10px; padding-bottom: 10px;"
+                = link_to 'X', attachment_path(a), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: "btn btn-xs btn-danger"
+            td style="padding-left: 15px; padding-bottom: 10px;"
+              = link_to a.file.identifier, a.file.url, target: "blank"
 
 - if current_user && current_user.author_of?(@question)
-  div class="row"
-    div class="col-md-2"
-      = link_to 'Delete question', @question, class: "btn btn-danger", method: :delete, data: { confirm: 'Are you shure?' }
-    div class="col-md-2"
-      = link_to 'Edit', '#', class: 'edit-question-link btn btn-info', data: { question_id: @question.id }
+  div class="btn-toolbar"
+    div class="btn-group"
+      = link_to 'Delete question', @question, class: "btn btn-danger btn-xs", method: :delete, data: { confirm: 'Are you shure?' }
+      = link_to 'Edit', '#', class: 'edit-question-link btn btn-info btn-xs', data: { question_id: @question.id }
   p
     br
     .question-errors style="color: red;"
@@ -37,7 +36,7 @@ p
       br
       = render 'application/attachment_form', f: f, target: @question
       br
-      = f.submit 'Save', class: "btn btn-primary"
+      = f.submit 'Save', class: "btn btn-primary btn-xs"
 
 br
 .answers

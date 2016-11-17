@@ -11,12 +11,13 @@ feature 'Show question', %q{
     create_list(:answer, 2, question: question)
 
     visit questions_path
+
     click_on 'Show question'
 
     expect(page).to have_content 'ThisIsMyString'
     expect(page).to have_content 'ThisIsMyText'
-    expect(page).to have_content 'ThisIsMyAnswer6'
-    expect(page).to have_content 'ThisIsMyAnswer7'
+    expect(page).to have_content 'ThisIsMyAnswer1'
+    expect(page).to have_content 'ThisIsMyAnswer2'
 
   end
 end

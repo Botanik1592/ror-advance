@@ -11,26 +11,39 @@
                 br
                 br
         = raw(answer.body)
-        .attachments_answer_files
-          p
-            b Attachments:
-            table border="0"
-              - answer.attachments.each do |a|
-                tr id="attachment-#{a.id}"
-                  - if current_user && current_user.author_of?(@question)
-                    td style="padding-left: 10px; padding-bottom: 10px;"
-                      = link_to 'X', attachment_path(a), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: "btn btn-sm btn-danger"
-                  td style="padding-left: 15px; padding-bottom: 10px;"
-                    = link_to a.file.identifier, a.file.url, target: "blank"
-      div class="container"
+        - if answer.attachments.present?
+          .attachments_answer_files
+            p
+              b Attachments:
+              table border="0"
+                - answer.attachments.each do |a|
+                  tr id="attachment-#{a.id}"
+                    - if current_user && current_user.author_of?(answer)
+                      td style="padding-left: 10px; padding-bottom: 10px;"
+                        = link_to 'X', attachment_path(a), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: "btn btn-xs btn-danger"
+                    td style="padding-left: 15px; padding-bottom: 10px;"
+                      = link_to a.file.identifier, a.file.url, target: "blank"
+
+      div class="btn-toolbar" role="toolbar"
         - if current_user && current_user.author_of?(answer)
-          div class="col-md-2"
-            = link_to 'Delete answer', answer, class: "btn btn-danger", method: :delete, remote: true, data: { answer_id: answer.id, confirm: 'Are you shure?' }
-          div class="col-md-2"
-            = link_to 'Edit answer', '#', class: 'edit-answer-link btn btn-info', data: { answer_id: answer.id }
+          div class="btn-group" role="group"
+            button class="btn btn-default btn-xs disabled" #{answer.show_rate}
+          div class="btn-group" role="group"
+            = link_to 'Delete answer', answer, class: "btn btn-danger btn-xs", method: :delete, remote: true, data: { answer_id: answer.id, confirm: 'Are you shure?' }
+            = link_to 'Edit answer', '#', class: 'edit-answer-link btn btn-info btn-xs', data: { answer_id: answer.id }
+        - else
+          div class="btn-group" role="group"
+            - if user_signed_in?
+              = link_to "+", rate_up_answer_path(answer), method: :patch, remote: :true, class: "rateup btn btn-default btn-xs ratelink", disabled: answer.has_plus_rate?(current_user), id: "answer-rateup-#{answer.id}", data: { type: :json, target_id: answer.id }
+              button class="btn btn-default btn-xs disabled" id="answer-rating-#{answer.id}" #{answer.show_rate}
+              = link_to "-", rate_down_answer_path(answer), method: :patch, remote: :true, class: "ratedown btn btn-default btn-xs ratelink", disabled: answer.has_minus_rate?(current_user), id: "answer-ratedown-#{answer.id}", data: { type: :json, target_id: answer.id }
+            - else
+              button class="btn btn-default btn-xs disabled" id="answer-rating-#{answer.id}" #{answer.show_rate}
+            div class="btn-group" role="group"
+              p id="answer-set-rating-error-#{answer.id}"
         - if current_user && current_user.author_of?(answer.question)
-          div class="col-md-2"
-            = link_to 'Mark best', mark_best_answer_path(answer), method: :patch, remote: true, class: "btn btn-success"
+          div class="btn-group" role="group"
+            = link_to 'Mark best', mark_best_answer_path(answer), method: :patch, remote: true, class: "btn btn-success btn-xs", data: { answer_id: answer.id }
 
         br
         .answer-errors style="color: red;"
@@ -41,4 +54,4 @@
           br
           = render 'application/attachment_form', f: f
           br
-          = f.submit 'Save', class: "btn btn-primary"
+          = f.submit 'Save', class: "btn btn-primary btn-xs"

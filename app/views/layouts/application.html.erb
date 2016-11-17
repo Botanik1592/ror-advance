@@ -54,8 +54,11 @@
         </button>
         <a class="navbar-brand" href="/">RorAdvance</a>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
-          <ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-nav">
             <li><%= link_to "Questions", questions_path  %></li>
+            <li><%= link_to 'Ask question', new_question_path %></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
             <% if user_signed_in? %>
               <li><%= link_to 'Sign out', destroy_user_session_path, method: :delete %></li>
             <% else %>
@@ -67,7 +70,7 @@
     </div>
     <div class="container">
       <div class="row">
-        <div class="col-lg-9">
+        <div class="container">
           <%= bootstrap_flash %>
           <p class="notice"><%= notice %></p>
           <p class="alert"><%= alert %></p>
