@@ -36,7 +36,7 @@ module Ratable
   end
 
   def rate(user, vote)
-    if user.author_of?(self)
+    if user.author_of?(self) || vote == 1 && has_plus_rate?(user) || vote == -1 && has_minus_rate?(user)
       error = [true, "You can't vote for this!"]
     else
       del_rate(user) if has_rate?(user)

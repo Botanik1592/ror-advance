@@ -23,18 +23,12 @@ shared_examples 'ratable' do
       expect{ model.rate_up(user) }.to_not change{ model.show_rate }
     end
 
-    it "send error Hash if user rate up his answer/post" do
-      expect(model.rate_up(user)).to include("You can't vote for this!")
-    end
-
-    # it "send 1 if user rate_up another answer/post" do
-    #   expect(model.rate_up(user2)).to include([ratings: 1])
-    # end
-
     context "rate up when rate_up already exists" do
       before { create(:rating, ratings: 1, ratable: model, user: user2) }
 
       it { expect{ model.rate_up(user2) }.to_not change{ model.show_rate} }
+
+      it { expect(model.rate_up(user2)).to include("You can't vote for this!") }
     end
 
     context "rate up when rate_down already exists" do
@@ -42,6 +36,12 @@ shared_examples 'ratable' do
 
       it { expect{ model.rate_up(user2) }.to change{ model.show_rate}.by (2) }
     end
+
+    it "send 'You can't vote for this!' if user rate_up his answer/post" do
+      expect(model.rate_up(user)).to include("You can't vote for this!")
+    end
+
+
   end
 
   describe "#rate_down" do
@@ -60,12 +60,18 @@ shared_examples 'ratable' do
       before { create(:rating, ratings: -1, ratable: model, user: user2) }
 
       it { expect{ model.rate_down(user2) }.to_not change{ model.show_rate} }
+
+      it { expect(model.rate_down(user2)).to include("You can't vote for this!") }
     end
 
     context "rate down when rate_up already exists" do
       before { create(:rating, ratings: 1, ratable: model, user: user2) }
 
       it { expect{ model.rate_down(user2) }.to change{ model.show_rate}.by (-2) }
+    end
+
+    it "send 'You can't vote for this!' if user rate_up his answer/post" do
+      expect(model.rate_down(user)).to include("You can't vote for this!")
     end
   end
 
