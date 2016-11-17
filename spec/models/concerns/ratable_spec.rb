@@ -15,12 +15,16 @@ shared_examples 'ratable' do
     let(:user2) { create(:user) }
     let(:model) { create(described_class.to_s.underscore.to_sym, user: user) }
 
-    it "rate up another user answer/post" do
-       expect{ model.rate_up(user2) }.to change{ model.show_rate }.by(1)
+    context "rate up another user answer/post" do
+       it { expect{ model.rate_up(user2) }.to change{ model.show_rate }.by(1) }
+
+       it { expect(model.rate_up(user2)).to eq model.ratings.first }
     end
 
-    it "rate up his answer/post" do
-      expect{ model.rate_up(user) }.to_not change{ model.show_rate }
+    context "rate up his answer/post" do
+      it { expect{ model.rate_up(user) }.to_not change{ model.show_rate } }
+
+      it { expect(model.rate_up(user)).to eq [true, "You can't vote for this!"] }
     end
 
     context "rate up when rate_up already exists" do
@@ -28,32 +32,32 @@ shared_examples 'ratable' do
 
       it { expect{ model.rate_up(user2) }.to_not change{ model.show_rate} }
 
-      it { expect(model.rate_up(user2)).to include("You can't vote for this!") }
+      it { expect(model.rate_up(user2)).to eq [true, "You can't vote for this!"] }
     end
 
     context "rate up when rate_down already exists" do
       before { create(:rating, ratings: -1, ratable: model, user: user2) }
 
-      it { expect{ model.rate_up(user2) }.to change{ model.show_rate}.by (2) }
+      it { expect{ model.rate_up(user2) }.to change{ model.show_rate}.by(2) }
+
+      it { expect(model.rate_up(user2)).to eq model.ratings.first }
     end
-
-    it "send 'You can't vote for this!' if user rate_up his answer/post" do
-      expect(model.rate_up(user)).to include("You can't vote for this!")
-    end
-
-
   end
 
   describe "#rate_down" do
     let(:user2) { create(:user) }
     let(:model) { create(described_class.to_s.underscore.to_sym, user: user) }
 
-    it "rate down another user answer/post" do
-      expect{ model.rate_down(user2) }.to change{ model.show_rate }.by(-1)
+    context "rate down another user answer/post" do
+      it { expect{ model.rate_down(user2) }.to change{ model.show_rate }.by(-1) }
+
+      it { expect(model.rate_down(user2)).to eq model.ratings.first }
     end
 
-    it "rate down his answer/post" do
-      expect { model.rate_down(user) }.to_not change{ model.show_rate}
+    context "rate down his answer/post" do
+      it { expect { model.rate_down(user) }.to_not change{ model.show_rate} }
+
+      it { expect(model.rate_down(user)).to eq [true, "You can't vote for this!"] }
     end
 
     context "rate down when rate_down already exists" do
@@ -61,17 +65,15 @@ shared_examples 'ratable' do
 
       it { expect{ model.rate_down(user2) }.to_not change{ model.show_rate} }
 
-      it { expect(model.rate_down(user2)).to include("You can't vote for this!") }
+      it { expect(model.rate_down(user2)).to eq [true, "You can't vote for this!"] }
     end
 
     context "rate down when rate_up already exists" do
       before { create(:rating, ratings: 1, ratable: model, user: user2) }
 
       it { expect{ model.rate_down(user2) }.to change{ model.show_rate}.by (-2) }
-    end
 
-    it "send 'You can't vote for this!' if user rate_up his answer/post" do
-      expect(model.rate_down(user)).to include("You can't vote for this!")
+      it { expect(model.rate_down(user2)).to eq model.ratings.first }
     end
   end
 
