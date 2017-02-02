@@ -3,6 +3,8 @@ require 'rails_helper'
 Capybara.javascript_driver      = :webkit
 Capybara.default_max_wait_time  = 5
 Capybara.ignore_hidden_elements = true
+Capybara.server = :puma
+
 
 RSpec.configure do |config|
 

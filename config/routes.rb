@@ -17,4 +17,6 @@ Rails.application.routes.draw do
     end
   end
   resources :attachments, only: :destroy
+
+  mount ActionCable.server => '/cable'
 end
