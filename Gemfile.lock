@@ -135,7 +135,7 @@ GEM
       cliver (~> 0.3.1)
       websocket-driver (>= 0.2.0)
     public_suffix (2.0.5)
-    puma (3.7.0)
+    puma (3.6.2)
     rack (2.0.1)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -227,11 +227,11 @@ GEM
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.0)
-    twitter-bootstrap-rails (3.2.2)
-      actionpack (>= 3.1)
-      execjs (>= 2.2.2, >= 2.2)
-      less-rails (>= 2.5.0)
-      railties (>= 3.1)
+    twitter-bootstrap-rails (4.0.0)
+      actionpack (~> 5.0, >= 5.0.1)
+      execjs (~> 2.7)
+      less-rails (~> 2.8, >= 2.8.0)
+      railties (~> 5.0, >= 5.0.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (3.0.4)
@@ -269,7 +269,7 @@ DEPENDENCIES
   listen (~> 3.0.5)
   pg
   poltergeist
-  puma (~> 3.0)
+  puma (!= 3.7.0)
   rails (~> 5.0.0, >= 5.0.0.1)
   rails-controller-testing
   remotipart

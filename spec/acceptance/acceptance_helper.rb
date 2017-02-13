@@ -1,10 +1,23 @@
 require 'rails_helper'
 
-Capybara.javascript_driver      = :webkit
 Capybara.default_max_wait_time  = 5
-Capybara.ignore_hidden_elements = true
 Capybara.server = :puma
 
+Capybara::Webkit.configure do |config|
+  config.allow_url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
+end
+
+Capybara::Webkit.configure do |config|
+  config.allow_url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+end
+
+Capybara::Webkit.configure do |config|
+  config.allow_url("maxcdn.bootstrapcdn.com")
+end
+
+Capybara::Webkit.configure do |config|
+  config.allow_url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css")
+end
 
 RSpec.configure do |config|
 

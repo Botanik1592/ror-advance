@@ -1,0 +1,39 @@
+- question_user_id = @data['question_user_id']
+- answer_user_id = @data['answer_user_id']
+- answer = @data['answer']
+- attachments = @data['answer_attachments']
+- answer_rating = @data['answer_rating']
+
+answer id="answer-#{answer.id}"
+  .one-answer style="background-color: #fff0cd; padding: 5px; margin: 10px;"
+    p id="edited-answer-#{answer.id}"
+      = answer.body
+      - for a in attachments
+        .attachments_answer_files
+          li style="list-style-type: none;"
+            -if gon.current_user_id == answer_user_id
+              a href="/attachments/#{a.id}" data-remote="true" data-method="delete" data-confirm="Sure?" rel="nofollow" class="btn btn-xs btn-danger" X
+            a href="#{a.file_url}" target="_blank" #{a.file_name}
+    div class="btn-toolbar" role="toolbar"
+      - if gon.current_user_id == answer_user_id
+        div class="btn-group" role="group"
+          button class="btn btn-default btn-xs disabled" #{answer.show_rate}
+        div class="btn-group" role="group"
+          a href="/answers/#{answer.id}" class="btn btn-danger btn-xs" data-method="delete" data-remote="true" data-confirm="Are you shure?" Delete answer
+          a href="/answers/#{answer.id}/edit" class="edit-answer-link btn btn-info btn-xs" Edit answer
+      - else
+        div class="btn-group" role="group"
+          - if gon.current_user_id
+              a href="/answers/#{answer.id}/rate_up" data-method="patch" data-remote="true" class="rateup btn btn-default btn-xs ratelink" data-type="json" rel="nofollow" +
+
+              button class="btn btn-default btn-xs disabled" id="answer-rating-#{answer.id}" #{answer_rating}
+
+              a href="/answers/#{answer.id}/rate_down" data-method="patch" data-remote="true" class="ratedown btn btn-default btn-xs ratelink" data-type="json" rel="nofollow" -
+          - else
+            button class="btn btn-default btn-xs disabled" id="answer-rating-#{answer.id}" #{answer_rating}
+          div class="btn-group" role="group"
+            p id="answer-set-rating-error-#{answer.id}"
+      - if gon.current_user_id == question_user_id
+        div class="btn-group" role="group"
+          a href="/answers/#{answer.id}/mark_best" data-method="patch" data-remote="true" class="btn btn-success btn-xs" Mark best
+

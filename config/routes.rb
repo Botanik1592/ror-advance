@@ -12,7 +12,9 @@ Rails.application.routes.draw do
 
   resources :answers
   resources :questions, concerns: [:ratable] do
+    resources :comments, only: [:new, :create], shallow: true
     resources :answers, shallow: true, concerns: [:ratable] do
+      resources :comments, only: [:new, :create], shallow: true
       patch 'mark_best', on: :member
     end
   end

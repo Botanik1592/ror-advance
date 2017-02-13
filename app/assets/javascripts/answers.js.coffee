@@ -29,6 +29,7 @@ ready = ->
     error = $.parseJSON(xhr.responseText);
     $('#answer-set-rating-error-' + id).html(error[1]);
 
+
 $(document).ready(ready)
 $(document).on('page:load', ready)
 $(document).on('page:update', ready)

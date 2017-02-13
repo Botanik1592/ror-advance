@@ -45,6 +45,11 @@
           div class="btn-group" role="group"
             = link_to 'Mark best', mark_best_answer_path(answer), method: :patch, remote: true, class: "btn btn-success btn-xs", data: { answer_id: answer.id }
 
+      div id="answer-#{answer.id}-comments"
+        |Comments:
+        br
+        = render 'application/comment', target: answer
+
         br
         .answer-errors style="color: red;"
         = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|

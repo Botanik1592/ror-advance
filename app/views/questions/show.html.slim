@@ -1,5 +1,6 @@
 = render 'common/errors', resource: @answer
 .question-errors
+#question data-id="#{@question.id}"
 p id="edited-question-title"
   b= raw(@question.title)
 p id="edited-question-body"
@@ -51,12 +52,18 @@ div class="btn-toolbar"
       br
       = f.submit 'Save', class: "btn btn-primary btn-xs"
 
+div id="question-#{@question.id}-comments"
+  |Comments:
+  br
+  = render 'application/comment', target: @question
+
+
 br
 .answers
   - if @question.answers.empty?
     b No answers
   - else
-    b Comments:
+    b Answers:
     = render @question.answers
 
 br
