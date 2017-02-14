@@ -1,7 +1,7 @@
 b Attachments:
 .attachments
   br
-  = f.fields_for :attachments do |a|
+  = f.fields_for :attachments, target.attachments.build do |a|
     = render 'application/attachment_fields', f: a
     br
     = link_to_add_association 'Add file', f, :attachments, class: 'btn btn-sm btn-success'

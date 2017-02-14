@@ -14,7 +14,7 @@ feature 'Rate question', %q{
 
   scenario 'User rate up the question', js: true do
     sign_in(user)
-    visit questions_path
+    visit question_path(question2)
 
     click_on("question-rateup-#{question2.id}")
 
@@ -25,7 +25,7 @@ feature 'Rate question', %q{
 
   scenario 'User rate down the question', js: true do
     sign_in(user)
-    visit questions_path
+    visit question_path(question2)
 
     click_on("question-ratedown-#{question2.id}")
 
@@ -36,7 +36,7 @@ feature 'Rate question', %q{
 
   scenario 'User rate down and after rate up the question', js: true do
     sign_in(user)
-    visit questions_path
+    visit question_path(question2)
 
     click_on("question-ratedown-#{question2.id}")
 
@@ -51,7 +51,7 @@ feature 'Rate question', %q{
 
   scenario 'User tries to rate his question', js: true do
     sign_in(user)
-    visit questions_path
+    visit question_path(question)
 
     expect(page).to_not have_link "question-rateup-#{question.id}"
     expect(page).to_not have_link "question-ratedown-#{question.id}"

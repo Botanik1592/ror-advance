@@ -39,6 +39,7 @@ gem 'cocoon'
 gem 'devise'
 gem 'gon'
 gem 'skim'
+gem 'responders', '~> 2.0'
 
 group :test, :development do
   gem 'rspec-rails'

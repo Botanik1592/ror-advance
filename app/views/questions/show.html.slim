@@ -75,7 +75,7 @@ br
       br
       = f.text_area :body, id: "new-answer-body", class: "form-control"
       br
-      = render 'application/attachment_form', f: f
+      = render 'application/attachment_form', f: f, target: @question
       br
       = f.submit 'Create answer', class: "btn btn-primary"
   - else
