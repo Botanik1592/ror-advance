@@ -28,6 +28,14 @@ ready = ->
       error = $.parseJSON(xhr.responseText);
       $('#question-set-rating-error-' + id).html(error[1]);
 
+App.cable.subscriptions.create('QuestionsChannel', {
+  connected: ->
+    @perform 'follow'
+  ,
+  received: (data)  ->
+    $('.questions_list').append data
+  })
+
 $(document).ready(ready)
 $(document).on('page:load', ready)
 $(document).on('page:update', ready)

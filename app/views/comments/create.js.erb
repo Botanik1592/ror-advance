@@ -1,0 +1,10 @@
+comment = "#comments-<%=@comment.commentable_type.underscore%>-<%=@comment.commentable_id%>"
+
+<% if @comment.errors.present? %>
+  <% @comment.errors.full_messages.each do |error| %>
+    $(comment + ' .comment-errors').html('<%= j error %>');
+  <% end %>
+<% else %>
+  $(comment + ' .comment-errors').html('');
+  $('#new-comment-body-<%=@comment.commentable_id%>').val(" ");
+<% end %>

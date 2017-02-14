@@ -6,9 +6,9 @@ gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 # Use sqlite3 as the database for Active Record
 gem 'pg'
 # Use Puma as the app server
-gem 'puma', '~> 3.0'
+gem 'puma', '!= 3.7.0'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
@@ -30,12 +30,15 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'sprockets', '3.6.3'
 gem 'slim'
 gem 'twitter-bootstrap-rails'
 gem 'carrierwave'
 gem 'remotipart'
 gem 'cocoon'
 gem 'devise'
+gem 'gon'
+gem 'skim'
 
 group :test, :development do
   gem 'rspec-rails'
@@ -48,6 +51,7 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'capybara-webkit'
+  gem 'poltergeist'
   gem 'database_cleaner'
 end
 

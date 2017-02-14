@@ -1,4 +1,4 @@
-require_relative 'acceptance_helper'
+require_relative '../acceptance_helper'
 
 feature 'Create answer', %q{
   As an authenticated user
@@ -31,6 +31,32 @@ feature 'Create answer', %q{
 
     within '.answers' do
       expect(page).to_not have_content "invalid"
+    end
+  end
+
+  scenario 'Answer broadcasted to another users without page reload', js: true do
+    Capybara.using_session('user') do
+      sign_in(user)
+      visit question_path(question)
+    end
+
+    Capybara.using_session('guest') do
+      visit question_path(question)
+    end
+
+    Capybara.using_session('user') do
+      fill_in 'new-answer-body', with: 'Test test test answer'
+      click_on 'Create answer'
+
+      within '.answers' do
+        expect(page).to have_content 'Test test test answer'
+      end
+    end
+
+    Capybara.using_session('guest') do
+      within '.answers' do
+        expect(page).to have_content 'Test test test answer'
+      end
     end
   end
 

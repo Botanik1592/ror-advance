@@ -1,0 +1,16 @@
+.comment id="comments-#{target.class.to_s.underscore}-#{target.id}"
+  - if target.comments.present?
+    ul
+    - target.comments.each do |comment|
+      li id="comment-#{comment.id}"
+        = comment.body
+  br
+  -if user_signed_in?
+    = form_for [target, target.comments.build], remote: true do |f|
+
+      .form-group
+        = f.label :body, 'Comment:'
+        .comment-errors style="color: red;"
+        = f.text_area :body, id: "new-comment-body-#{target.id}", class: 'form-control'
+      .form-group
+        = f.submit 'Save', class: 'btn btn-default'

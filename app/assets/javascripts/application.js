@@ -17,3 +17,7 @@
 //= require twitter/bootstrap
 //= require turbolinks
 //= require_tree .
+//= require action_cable
+
+var App = App || {};
+App.cable = ActionCable.createConsumer();
