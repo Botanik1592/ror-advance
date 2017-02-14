@@ -1,22 +1,23 @@
 class QuestionsController < ApplicationController
   include Rates
 
-  before_action :authenticate_user!, except: [ :index, :show ]
-  before_action :set_question, except: [ :index, :new, :create ]
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_question, except: [:index, :new, :create]
+  before_action :build_answer, only: [:show]
   after_action :publish_question, only: [:create]
 
+  respond_to :js, only: :update
+
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def show
-    @answer = @question.answers.build
-    @answer.attachments.build
+    respond_with(@question, @answer)
   end
 
   def new
-    @question = Question.new
-    @question.attachments.build
+    respond_with(@question = Question.new)
   end
 
   def edit
@@ -24,26 +25,15 @@ class QuestionsController < ApplicationController
 
   def update
     @question.update(question_params) if current_user.author_of?(@question)
+    respond_with @question
   end
 
   def create
-    @question = Question.new(question_params)
-    @question.user = current_user
-
-    if @question.save
-      redirect_to @question, notice: 'Question successfully created'
-    else
-      render :new
-    end
+    respond_with(@question = current_user.questions.create(question_params))
   end
 
   def destroy
-    if current_user.author_of?(@question)
-      @question.destroy
-      redirect_to questions_path, notice: 'Question successfully deleted.'
-    else
-      redirect_to question_path(@question), alert: "You can not remove a foreign question!"
-    end
+    respond_with @question.destroy if current_user.author_of?(@question)
   end
 
   private
@@ -55,6 +45,10 @@ class QuestionsController < ApplicationController
       partial: 'questions/question',
       locals: { question: @question }
       )
+  end
+
+  def build_answer
+    @answer = @question.answers.build
   end
 
   def set_question

@@ -3,14 +3,15 @@ class CommentsController < ApplicationController
   before_action :set_commentable
   after_action :publish_comment, only: :create
 
+  respond_to :js
+
   def new
     @comment = @commentable.comments.new
+    respond_with @comment
   end
 
   def create
-    @comment = @commentable.comments.new(comment_params)
-    @comment.user = current_user
-    @comment.save
+    @comment = @commentable.comments.create(comment_params.merge(user_id: current_user.id))
   end
 
   private
@@ -29,7 +30,6 @@ class CommentsController < ApplicationController
   end
 
   def set_commentable
-    return if @comment.errors.any?
     if params[:question_id]
       @commentable = Question.find(params[:question_id])
       @question_id = @commentable.id
