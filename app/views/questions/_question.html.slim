@@ -1,7 +1,7 @@
 .question
-  b= raw(question.title)
+  b= question.title
   br
-  = raw(question.body)
+  = question.body
   br
   div class="btn-group" role="group"
     = link_to 'Show question', question, class: "btn btn-primary btn-xs"
