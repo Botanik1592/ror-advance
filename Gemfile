@@ -40,6 +40,10 @@ gem 'devise'
 gem 'gon'
 gem 'skim'
 gem 'responders', '~> 2.0'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-vkontakte'
+gem 'omniauth-twitter'
 
 group :test, :development do
   gem 'rspec-rails'
