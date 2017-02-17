@@ -1,6 +1,9 @@
 h3 #{@auth[:provider].capitalize} not send your email address. Please enter it manualy to complite registration:
 
-= form_tag(email_from_user_path) do
+= form_tag email_from_user_path do
+  .row
+    h4
+      =@email_form_errors
   .row
     .col-xs-8.col-sm-6
       = email_field_tag :email, nil, class: 'form-control'
