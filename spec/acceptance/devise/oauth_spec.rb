@@ -41,4 +41,23 @@ feature 'Signing in using oauth', %q{
     click_link 'Sign in with Twitter'
     expect(page).to have_content('Could not authenticate you from Twitter because "Credentials are invalid"')
   end
+
+  scenario "User tries to sign in without email" do
+    mock_auth_without_email
+    clear_emails
+    click_link 'Sign in with Vkontakte'
+
+    fill_in 'email', with: 'user@testemail.com'
+    click_button 'Save'
+    expect(page).to have_content "Could not authenticate you from Vkontakte because"
+
+    open_email('user@testemail.com')
+    current_email.click_link 'Confirm my account'
+
+    expect(page).to have_content 'Your email address has been successfully confirmed'
+
+    visit new_user_session_path
+    click_link 'Sign in with Vkontakte'
+    expect(page).to have_content 'Successfully authenticated from Vkontakte account'
+  end
 end

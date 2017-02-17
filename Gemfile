@@ -59,6 +59,7 @@ group :test do
   gem 'capybara-webkit'
   gem 'poltergeist'
   gem 'database_cleaner'
+  gem 'capybara-email'
 end
 
 group :development, :test do
