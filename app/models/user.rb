@@ -6,18 +6,18 @@ class User < ApplicationRecord
   has_many :comments
   has_many :authorizations
 
-  validates :email, format: /@/
-
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :confirmable, :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook, :twitter, :vkontakte]
+  devise :database_authenticatable, :registerable, :confirmable, :recoverable,
+         :rememberable, :trackable, :validatable, :omniauthable,
+         omniauth_providers: [:facebook, :twitter, :vkontakte]
 
   def author_of?(res)
     res.user_id == id
   end
 
   def self.find_for_oauth(auth)
-    authorization = Authorization.where(provider: auth[:provider], uid: auth[:uid].to_s).first
+    authorization = User.find_for_authorization(auth)
     return authorization.user if authorization
 
     email = auth[:email]
@@ -25,7 +25,7 @@ class User < ApplicationRecord
 
     unless user
       password = Devise.friendly_token[0, 20]
-      if auth[:confirmation] == true
+      if auth[:confirmation]
         user = create!(email: email, password: password, password_confirmation: password)
       else
         user = User.new(email: email, password: password, password_confirmation: password)
@@ -37,21 +37,11 @@ class User < ApplicationRecord
     user
   end
 
-  def self.get_hash(pre_auth)
-    auth = {}
-    if pre_auth.info[:email] == nil
-      auth[:email] = nil
-      auth[:confirmation] = true
-    else
-      auth[:email] = pre_auth.info[:email]
-      auth[:confirmation] = false
-    end
-    auth[:provider] = pre_auth.provider
-    auth[:uid] = pre_auth.uid
-    return auth
+  def self.find_for_authorization(auth)
+    Authorization.where(provider: auth[:provider], uid: auth[:uid].to_s).first
   end
 
   def create_authorization(auth)
-     self.authorizations.create!(provider: auth[:provider], uid: auth[:uid])
+     authorizations.create!(provider: auth[:provider], uid: auth[:uid])
   end
 end

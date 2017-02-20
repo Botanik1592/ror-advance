@@ -11,37 +11,35 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def email
-    @auth = {}
-    @auth[:email] = params[:email]
-    @auth[:confirmation] = true
-    @auth[:provider] = params[:provider]
-    @auth[:uid] = params[:uid]
-    if @auth[:email] == ''
+    if params[:email].empty?
       render template: 'user/email'
       set_flash_message(:error, :email_empty) if is_navigational_format?
     else
-      social_auth(@auth)
+      session[:email] = params[:email]
+      social_auth(session)
     end
   end
 
   private
 
   def oauth_sign_in
-    pre_auth = request.env['omniauth.auth']
-    @auth = User.get_hash(pre_auth)
+    oauth = request.env['omniauth.auth']
+    session[:uid] = oauth[:uid]
+    session[:provider] = oauth.provider
+    session[:email] = oauth.info[:email]
 
-    authorization = Authorization.where(provider: @auth[:provider], uid: @auth[:uid].to_s).first
+    authorization = User.find_for_authorization(session)
 
-    if @auth[:confirmation] == true && authorization == nil
-      render template: 'user/email'
+    if oauth.info[:email] || authorization
+      social_auth(session)
     else
-      social_auth(@auth)
+      session[:confirmation] = true
+      render template: 'user/email'
     end
   end
 
   def social_auth(auth)
     @user = User.find_for_oauth(auth)
-
     if @user
       if @user.confirmed?
         sign_in_and_redirect @user, event: :authentication
