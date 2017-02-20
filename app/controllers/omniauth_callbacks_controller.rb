@@ -1,6 +1,8 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   before_action :oauth_sign_in, only: [:facebook, :twitter, :vkontakte]
 
+  skip_authorization_check
+
   def facebook
   end
 
@@ -34,6 +36,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       social_auth(session)
     else
       session['devise.confirmation'] = true
+      @provider = oauth.provider.capitalize
       render template: 'user/email'
     end
   end
