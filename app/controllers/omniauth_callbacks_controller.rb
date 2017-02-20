@@ -15,7 +15,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       render template: 'user/email'
       set_flash_message(:error, :email_empty) if is_navigational_format?
     else
-      session[:email] = params[:email]
+      session['devise.email'] = params[:email]
       social_auth(session)
     end
   end
@@ -24,16 +24,16 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def oauth_sign_in
     oauth = request.env['omniauth.auth']
-    session[:uid] = oauth[:uid]
+    session['devise.uid'] = oauth[:uid]
     session[:provider] = oauth.provider
-    session[:email] = oauth.info[:email]
+    session['devise.email'] = oauth.info[:email]
 
     authorization = User.find_for_authorization(session)
 
     if oauth.info[:email] || authorization
       social_auth(session)
     else
-      session[:confirmation] = true
+      session['devise.confirmation'] = true
       render template: 'user/email'
     end
   end
@@ -44,9 +44,11 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       if @user.confirmed?
         sign_in_and_redirect @user, event: :authentication
         set_flash_message(:notice, :success, kind: auth[:provider].capitalize) if is_navigational_format?
+        session[:provider] = nil
       else
         redirect_to root_path
         set_flash_message(:notice, :failure, kind: auth[:provider].capitalize, reason: 'you need to confirm email address first') if is_navigational_format?
+        session[:provider] = nil
       end
     else
       redirect_to root_path

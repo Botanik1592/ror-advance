@@ -1,4 +1,4 @@
-h3 #{session[:provider].capitalize} not send your email address. Please enter it manualy to complite registration:
+h3 #{session['devise.provider'].capitalize} not send your email address. Please enter it manualy to complite registration:
 
 = form_tag email_from_user_path do
   .row
