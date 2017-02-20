@@ -40,11 +40,16 @@ gem 'devise'
 gem 'gon'
 gem 'skim'
 gem 'responders', '~> 2.0'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-vkontakte'
+gem 'omniauth-twitter'
 
 group :test, :development do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'rails-controller-testing'
+  gem 'letter_opener'
 end
 
 group :test do
@@ -54,6 +59,7 @@ group :test do
   gem 'capybara-webkit'
   gem 'poltergeist'
   gem 'database_cleaner'
+  gem 'capybara-email'
 end
 
 group :development, :test do

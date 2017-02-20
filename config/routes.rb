@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
-  devise_for :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
+
+  as :user do
+    post 'update_email', to: 'omniauth_callbacks#email', as: :email_from_user
+  end
+
   root to: "questions#index"
 
   concern :ratable do
