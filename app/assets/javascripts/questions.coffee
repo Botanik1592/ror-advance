@@ -24,9 +24,14 @@ ready = ->
     $('#question-rateup-' + id).attr('disabled', false);
 
   $('.ratelink').on 'ajax:error', (e, xhr, status, error) ->
-      id = $(this).data('targetId');
-      error = $.parseJSON(xhr.responseText);
-      $('#question-set-rating-error-' + id).html(error[1]);
+    id = $(this).data('targetId');
+    if status == 'error'
+      error_message = "You can't rate this question";
+      $('#question-set-rating-error-' + id).html('<b>'+error_message+'</b>');
+    else
+      message = $.parseJSON(xhr.responseText);
+      error_message = message.error;
+      $('#question-set-rating-error-' + id).html('<b>'+error_message+'</b>');
 
 App.cable.subscriptions.create('QuestionsChannel', {
   connected: ->

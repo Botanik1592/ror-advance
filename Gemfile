@@ -44,6 +44,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-vkontakte'
 gem 'omniauth-twitter'
+gem 'cancancan'
 
 group :test, :development do
   gem 'rspec-rails'
