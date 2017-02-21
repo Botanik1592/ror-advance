@@ -26,9 +26,13 @@ ready = ->
 
   $('.ratelink').on 'ajax:error', (e, xhr, status, error) ->
     id = $(this).data('targetId');
-    error = $.parseJSON(xhr.responseText);
-    $('#answer-set-rating-error-' + id).html(error[1]);
-
+    if error == 'Forbidden'
+      error_message = "You can't rate this answer";
+      $('#answer-set-rating-error-' + id).html(error_message);
+    else
+      message = $.parseJSON(xhr.responseText);
+      error_message = message.error;
+      $('#answer-set-rating-error-' + id).htmlhtml('<b>'+error_message+'</b>');
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
