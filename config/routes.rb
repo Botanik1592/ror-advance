@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
 
   as :user do
@@ -25,4 +26,13 @@ Rails.application.routes.draw do
   resources :attachments, only: :destroy
 
   mount ActionCable.server => '/cable'
+
+  namespace :api do
+    namespace :v1 do
+      resource :profiles do
+        get :me, on: :collection
+        get :index, on: :collection
+      end
+    end
+  end
 end
