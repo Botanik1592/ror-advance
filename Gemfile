@@ -45,6 +45,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-vkontakte'
 gem 'omniauth-twitter'
 gem 'cancancan'
+gem 'doorkeeper'
 
 group :test, :development do
   gem 'rspec-rails'
@@ -61,6 +62,7 @@ group :test do
   gem 'poltergeist'
   gem 'database_cleaner'
   gem 'capybara-email'
+  gem 'json_spec'
 end
 
 group :development, :test do
