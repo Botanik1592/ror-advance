@@ -27,6 +27,7 @@ RSpec.describe Ability do
     let(:user_answer)         { create(:answer, user: user) }
     let(:other_user_answer)   { create(:answer, user: other_user) }
 
+    it { should be_able_to :me, User }
     it { should be_able_to :read, :all }
     it { should_not be_able_to :manage, :all }
 
