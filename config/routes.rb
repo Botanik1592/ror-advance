@@ -31,7 +31,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       resource :profiles do
         get :me, on: :collection
-        get :index, on: :collection
+      end
+      resources :questions do
+        resources :answers, shallow: true
+        get :list, on: :collection
       end
     end
   end
