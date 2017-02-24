@@ -34,7 +34,6 @@ Rails.application.routes.draw do
       end
       resources :questions do
         resources :answers, shallow: true
-        get :list, on: :collection
       end
     end
   end

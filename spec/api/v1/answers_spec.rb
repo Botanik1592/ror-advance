@@ -109,7 +109,8 @@ describe 'Answers API' do
     end
 
     context 'authorized and post valid data' do
-      let(:access_token) { create(:access_token) }
+      let(:user) { create(:user) }
+      let(:access_token) { create(:access_token, resource_owner_id: user.id) }
       let(:params) do
         {
           answer: { body: 'This is new answer body' },
@@ -126,10 +127,19 @@ describe 'Answers API' do
       it 'returns 201 status code' do
         expect(response.status).to eq 201
       end
+
+      it 'creates new answer in db with author' do
+        expect { post "/api/v1/questions/#{question.id}/answers", params: params }.to change(user.answers, :count).by(1)
+      end
+
+      it 'creates new answer in db with question' do
+        expect { post "/api/v1/questions/#{question.id}/answers", params: params }.to change(question.answers, :count).by(1)
+      end
     end
 
     context 'authorized and post invalid data' do
-      let(:access_token) { create(:access_token) }
+      let(:user) { create(:user) }
+      let(:access_token) { create(:access_token, resource_owner_id: user.id) }
       let(:params) do
         {
           answer: { body: nil },
@@ -149,6 +159,10 @@ describe 'Answers API' do
 
       it 'returns errors' do
         expect(response.body).to have_json_size(2).at_path("errors/body")
+      end
+
+      it 'does not creates anwer in db' do
+        expect { post "/api/v1/questions/#{question.id}/answers", params: params }.not_to change(Answer, :count)
       end
     end
   end
