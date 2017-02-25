@@ -4,15 +4,10 @@ describe 'Answers API' do
   let!(:question) { create(:question) }
 
   describe 'GET #index' do
-    it 'returns 401 status if there is no access_token' do
-      get "/api/v1/questions/#{question.id}/answers", params: { format: :json }
-      expect(response.status).to eq 401
-    end
+    let(:http_method) { :get }
+    let(:path) { "/api/v1/questions/#{question.id}/answers" }
 
-    it 'returns 401 status if access_token is invalid' do
-      get "/api/v1/questions/#{question.id}/answers", params: { access_token: '1234', format: :json }
-      expect(response.status).to eq 401
-    end
+    it_behaves_like 'API authenticable'
 
     context 'authorized' do
       let!(:answers) { create_list(:answer, 2, question: question) }
@@ -43,16 +38,10 @@ describe 'Answers API' do
     let!(:answer) { create(:answer, question: question) }
     let!(:comment) { create(:answer_comment, commentable: answer) }
     let!(:attachment) { create(:answer_attachment, attachmentable: answer) }
+    let(:http_method) { :get }
+    let(:path) { "/api/v1/answers/#{answer.id}" }
 
-    it 'returns 401 status if there is no access_token' do
-      get "/api/v1/answers/#{answer.id}", params: { format: :json }
-      expect(response.status).to eq 401
-    end
-
-    it 'returns 401 status if access_token is invalid' do
-      get "/api/v1/answers/#{answer.id}", params: { access_token: '1234', format: :json }
-      expect(response.status).to eq 401
-    end
+    it_behaves_like 'API authenticable'
 
     context 'authorized' do
       let(:access_token) { create(:access_token) }
@@ -98,15 +87,10 @@ describe 'Answers API' do
   end
 
   describe 'POST #create' do
-    it 'returns 401 status if there is no access_token' do
-      post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:answer), question_id: question.id, format: :json }
-      expect(response.status).to eq 401
-    end
+    let(:http_method) { :post }
+    let(:path) { "/api/v1/questions/#{question.id}/answers" }
 
-    it 'returns 401 status if access_token is invalid' do
-      post "/api/v1/questions/#{question.id}/answers", params: { answer: attributes_for(:answer), question_id: question.id, access_token: '1234', format: :json }
-      expect(response.status).to eq 401
-    end
+    it_behaves_like 'API authenticable'
 
     context 'authorized and post valid data' do
       let(:user) { create(:user) }
