@@ -23,7 +23,6 @@ class Ability
     guest_abilities
 
     can :me, User
-    can :list, Question
 
     can :create, [Question, Answer, Comment]
     can :update, [Question, Answer], user_id: user.id
