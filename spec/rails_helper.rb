@@ -7,6 +7,10 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'capybara/poltergeist'
 require 'cancan/matchers'
+require 'sidekiq/testing'
+
+Sidekiq::Testing.fake!
+
 #Capybara.javascript_driver = :poltergeist
 Capybara.javascript_driver = :webkit
 # Add additional requires below this line. Rails is not loaded until this point!
