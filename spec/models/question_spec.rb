@@ -15,4 +15,7 @@ RSpec.describe Question, type: :model do
   it { should have_many(:ratings) }
 
   it { should accept_nested_attributes_for :attachments }
+
+  it { should have_many(:subscriptions).dependent(:destroy) }
+  it { should have_many(:subscribers).through(:subscriptions).source(:user) }
 end

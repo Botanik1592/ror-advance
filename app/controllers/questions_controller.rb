@@ -15,6 +15,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @subscription = current_user.subscriptions.try(:find_by_question_id, @question) if current_user
     respond_with(@question, @answer)
   end
 

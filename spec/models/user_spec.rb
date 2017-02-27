@@ -7,6 +7,8 @@ RSpec.describe User do
   it { should have_many(:answers) }
   it { should have_many(:ratings) }
   it { should have_many(:comments) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
+  it { should have_many(:subscribed_questions).through(:subscriptions).source(:question) }
 
   it 'user author of question' do
     user = create(:user)

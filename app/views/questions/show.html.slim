@@ -34,6 +34,12 @@ div class="btn-toolbar"
         = link_to 'Delete question', @question, class: "btn btn-danger btn-xs", method: :delete, data: { confirm: 'Are you shure?' }
       - if can? :update, @question
         = link_to 'Edit', '#', class: 'edit-question-link btn btn-info btn-xs', data: { question_id: @question.id }
+
+      -if can?(:create, Subscription)
+        - if current_user.subscribed_to?(@question)
+          =link_to 'Unsubscribe', subscription_path(@subscription), class: "btn btn-danger btn-xs", method: :delete, id: 'subscription-button'
+        -else
+          =link_to 'Subscribe', question_subscriptions_path(@question), class: "btn btn-success btn-xs", method: :post, id: 'subscription-button'
   p
     br
     - if can? :update, @question

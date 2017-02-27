@@ -1,18 +1,28 @@
 require "rails_helper"
 
-RSpec.describe DailyMailerMailer, type: :mailer do
+describe DailyMailer do
   describe "digest" do
-    let(:mail) { DailyMailerMailer.digest }
+    let(:user) { create(:user) }
+    let(:mail) { DailyMailer.digest(user) }
+    let!(:question1) { create(:question, title: 'Question 1', created_at: 1.day.ago) }
+    let!(:question2) { create(:question, title: 'Question 2', created_at: 1.day.ago) }
 
-    it "renders the headers" do
-      expect(mail.subject).to eq("Digest")
-      expect(mail.to).to eq(["to@example.org"])
-      expect(mail.from).to eq(["from@example.com"])
+    it "renders the subject" do
+      expect(mail.subject).to eq("Daily digest")
+    end
+
+    it "renders the receiver email" do
+      expect(mail.to).to eq([user.email])
+    end
+
+    it "renders the sender email" do
+      expect(mail.from).to eq(["tipa-radio@yandex.ru"])
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to match("Hi")
+      [question1, question2].each do |q|
+        expect(mail.body.encoded).to have_link(q.title, href: question_url(q))
+      end
     end
   end
-
 end

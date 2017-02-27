@@ -1,0 +1,9 @@
+html
+  head
+    body
+      | New replies:
+      ul
+        | Answer:
+        =@answer.body
+      ul
+        = link_to 'View on the website', question_url(@answer.question)
