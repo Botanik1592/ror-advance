@@ -38,5 +38,8 @@ class Ability
     can :destroy, [Attachment], attachmentable: { user_id: user.id }
 
     can :mark_best, Answer, question: { user_id: user.id }
+
+    can :create, Subscription
+    can :destroy, Subscription, user_id: user.id
   end
 end

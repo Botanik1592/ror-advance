@@ -4,7 +4,9 @@ class User < ApplicationRecord
   has_many :answers
   has_many :ratings
   has_many :comments
-  has_many :authorizations
+  has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
+  has_many :subscribed_questions, through: :subscriptions, source: :question
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -43,5 +45,9 @@ class User < ApplicationRecord
 
   def create_authorization(auth)
      authorizations.create!(provider: auth[:provider], uid: auth['devise.uid'])
+  end
+
+  def subscribed_to?(question)
+    Subscription.exists?(user_id: id, question_id: question.id)
   end
 end
