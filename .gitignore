@@ -5,6 +5,8 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 config/database.yml
 config/secrets.yml
+confug/*.sphinx.conf
+db/sphinx
 
 # Ignore bundler config.
 /.bundle

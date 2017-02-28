@@ -1,0 +1,11 @@
+h1 Search results
+
+.search_results
+  -if @result
+    ul
+      -@result.each do |result|
+        li
+          =render "#{result.class.name.downcase}", target: result
+  -else
+    |No results
+
