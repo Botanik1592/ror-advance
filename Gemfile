@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -52,6 +52,8 @@ gem 'oj_mimic_json'
 gem 'sidekiq'
 gem 'whenever'
 gem 'sinatra', git: 'https://github.com/sinatra/sinatra.git', require: nil
+gem 'mysql2'
+gem 'thinking-sphinx'
 
 group :test, :development do
   gem 'rspec-rails'

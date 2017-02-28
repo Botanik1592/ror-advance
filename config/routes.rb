@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   use_doorkeeper
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
 
+  resource :search, only: :show
+
   as :user do
     post 'update_email', to: 'omniauth_callbacks#email', as: :email_from_user
   end
