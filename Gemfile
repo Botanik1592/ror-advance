@@ -56,6 +56,7 @@ gem 'mysql2'
 gem 'thinking-sphinx'
 gem 'dotenv'
 gem 'dotenv-rails'
+gem 'dotenv-deployment', require: 'dotenv/deployment'
 gem 'therubyracer'
 
 group :development do
@@ -63,6 +64,7 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
+  gem 'capistrano-sidekiq', require: false
 end
 
 group :test, :development do
