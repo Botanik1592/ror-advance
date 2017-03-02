@@ -55,7 +55,7 @@ gem 'sinatra', git: 'https://github.com/sinatra/sinatra.git', require: nil
 gem 'mysql2'
 gem 'thinking-sphinx'
 gem 'dotenv'
-gem 'dotenv-rails', require: 'dotenv/deployment'
+gem 'dotenv-rails'
 gem 'therubyracer'
 
 group :development do
