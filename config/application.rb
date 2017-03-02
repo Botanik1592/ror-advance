@@ -6,16 +6,14 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-# Load defaults from config/*.env in config
-Dotenv.load *Dir.glob(Rails.root.join("*.env"), File::FNM_DOTMATCH)
 
-# Override any existing variables if an environment-specific file exists
-Dotenv.overload *Dir.glob(Rails.root.join("*.env.#{Rails.env}"), File::FNM_DOTMATCH)
 
 module RorAdvance
   class Application < Rails::Application
     # Use the responders controller from the responders gem
     config.app_generators.scaffold_controller :responders_controller
+
+    config.action_cable.allowed_request_origins = ['http://qna.buryka.ru', 'http://localhost:3000']
 
     config.active_job.queue_adapter = :sidekiq
 
