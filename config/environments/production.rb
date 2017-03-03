@@ -59,7 +59,7 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :postmark
   config.action_mailer.default_url_options = { host: "qna.buryka.ru" }
-  config.action_mailer.default_options = {from: 'aburyka@qna.buryka.ru'}
+  config.action_mailer.default_options = {from: 'botan@shatll.com'}
   config.action_mailer.postmark_settings = { :api_key => "4d4b116a-a66e-4bf5-8217-59de354e02f3" }
 
   # Ignore bad email addresses and do not raise email delivery errors.
