@@ -13,9 +13,5 @@ production:
   indices_location: db/sphinx
   configuration_file: config/production.sphinx.conf
   binlog_path: binlog
-  enable_star: true
-  min_prefix_len: 0
-  min_infix_len: 1
-  min_word_len: 1
   charset_type: utf-8
-  morphology: stem_ru
+  morphology: stem_ru, stem_en
