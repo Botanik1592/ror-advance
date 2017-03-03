@@ -7,6 +7,6 @@ class AnswerMailer < ApplicationMailer
   #
   def notification(user, answer)
     @answer = answer
-    mail to: user.email, subject: "The question you subscribed has new answer."
+    mail(to: user.email, from: 'botan@shatll.com', subject: "The question you subscribed has new answer.")
   end
 end
