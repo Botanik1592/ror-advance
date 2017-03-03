@@ -56,9 +56,11 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "ror-advance_#{Rails.env}"
   config.action_mailer.perform_caching = true
-  config.action_mailer.default_url_options = { host: "qna.buryka.ru" }
+  config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :postmark
-  config.action_mailer.postmark_settings = { :api_key => Rails.application.secrets.postmark_api_token }
+  config.action_mailer.default_url_options = { host: "qna.buryka.ru" }
+  config.action_mailer.default_options = {from: 'aburyka@qna.buryka.ru'}
+  config.action_mailer.postmark_settings = { :api_key => "4d4b116a-a66e-4bf5-8217-59de354e02f3" }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
