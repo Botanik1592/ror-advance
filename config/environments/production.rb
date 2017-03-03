@@ -55,7 +55,10 @@ Rails.application.configure do
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "ror-advance_#{Rails.env}"
-  config.action_mailer.perform_caching = false
+  config.action_mailer.perform_caching = true
+  config.action_mailer.default_url_options = { host: "qna.buryka.ru" }
+  config.action_mailer.delivery_method = :postmark
+  config.action_mailer.postmark_settings = { :api_key => Rails.application.secrets.postmark_api_token }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
