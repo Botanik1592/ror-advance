@@ -7,6 +7,7 @@ set :repo_url, "git@github.com:Botanik1592/ror-advance.git"
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, "/home/botan/qna"
 set :deploy_user, 'botan'
+set :sidekiq_queue, ["default", "mailers"]
 
 # Default value for :linked_files is []
 append :linked_files,

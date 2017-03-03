@@ -12,7 +12,7 @@ class AnswersController < ApplicationController
 
   def create
     @answer = current_user.answers.create(answer_params.merge(question_id: @question.id))
-    respond_with(@answer)
+    #respond_with(@answer)
   end
 
   def update
