@@ -57,6 +57,7 @@ gem 'thinking-sphinx'
 gem 'dotenv'
 gem 'dotenv-rails'
 gem 'therubyracer'
+gem 'postmark-rails'
 
 group :development do
   gem 'capistrano', require: false
