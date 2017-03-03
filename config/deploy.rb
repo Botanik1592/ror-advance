@@ -13,7 +13,6 @@ set :sidekiq_queue, ["default", "mailers"]
 append :linked_files,
         "config/database.yml",
         "config/secrets.yml",
-        'config/production.sphinx.conf',
         ".env"
 
 # Default value for linked_dirs is []
