@@ -1,22 +1,22 @@
 require 'sidekiq/web'
 Rails.application.routes.draw do
 
-  authenticate :user, lambda { |u| u.admin? } do
-    mount Sidekiq::Web => '/sidekiq'
-  end
-
   use_doorkeeper
 
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
+
+  get "questions/index"
+  root "questions#index"
+
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 
   resource :search, only: :show
 
   as :user do
     post 'update_email', to: 'omniauth_callbacks#email', as: :email_from_user
   end
-
-  get "questions/index"
-  root "questions#index"
 
   concern :ratable do
     member do
