@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'tipa-radio@yandex.ru'
+  default from: 'aburyka@qna.buryka.ru'
   layout 'mailer'
 end

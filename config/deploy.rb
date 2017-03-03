@@ -21,8 +21,7 @@ append :linked_dirs, "log",
                      "tmp/sockets",
                      "public/system",
                      'public/uploads',
-                     'vendor/bundle',
-                     'db/sphinx'
+                     'vendor/bundle'
 
 namespace :deploy do
 
