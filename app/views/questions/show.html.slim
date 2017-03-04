@@ -1,22 +1,24 @@
 = render 'common/errors', resource: @answer
 .question-errors
 #question data-id="#{@question.id}"
-p id="edited-question-title"
-  b= raw(@question.title)
-p id="edited-question-body"
-  = raw(@question.body)
+- cache @question do
+  p id="edited-question-title"
+    b= raw(@question.title)
+  p id="edited-question-body"
+    = raw(@question.body)
 - if @question.attachments.present?
   p
     .attachments_question_files
       b Attachments:
       table border="0"
         - @question.attachments.each do |a|
-          tr id="attachment-#{a.id}"
-            - if can? :destroy, a
-              td style="padding-left: 10px; padding-bottom: 10px;"
-                = link_to 'X', attachment_path(a), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: "btn btn-xs btn-danger"
-            td style="padding-left: 15px; padding-bottom: 10px;"
-              = link_to a.file.identifier, a.file.url, target: "blank"
+          - cache a do
+            tr id="attachment-#{a.id}"
+              - if can? :destroy, a
+                td style="padding-left: 10px; padding-bottom: 10px;"
+                  = link_to 'X', attachment_path(a), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: "btn btn-xs btn-danger"
+              td style="padding-left: 15px; padding-bottom: 10px;"
+                = link_to a.file.identifier, a.file.url, target: "blank"
 div class="btn-toolbar"
   div class="btn-group" role="group"
     - if can? :rate_up, @question

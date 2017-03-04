@@ -2,8 +2,9 @@
   - if target.comments.present?
     ul
     - target.comments.each do |comment|
-      li id="comment-#{comment.id}"
-        = comment.body
+      - cache comment do
+        li id="comment-#{comment.id}"
+          = comment.body
   br
   -if can? :create, Comment
     = form_for [target, target.comments.build], remote: true do |f|

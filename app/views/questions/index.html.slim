@@ -3,4 +3,5 @@ h1 Questions List
   - if @questions.empty?
     b No questions found
   - else
-    = render @questions
+    - cache @questions
+      = render @questions

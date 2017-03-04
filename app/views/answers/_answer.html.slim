@@ -2,15 +2,16 @@
   .answer id="answer-#{answer.id}"
     .one-answer style="background-color: #fff0cd; padding: 5px; margin: 10px;"
       p id="edited-answer-#{answer.id}"
-        - if answer.best?
-          p
-            div class="row"
-              div class="col-md-4" style="color: #084c06;"
-                img src="/best.png" width="15px" style="display: inline; margin-right: 10px;"
-                b Best answer!
-                br
-                br
-        = raw(answer.body)
+        - cache answer do
+          - if answer.best?
+            p
+              div class="row"
+                div class="col-md-4" style="color: #084c06;"
+                  img src="/best.png" width="15px" style="display: inline; margin-right: 10px;"
+                  b Best answer!
+                  br
+                  br
+          = raw(answer.body)
         - if answer.attachments.present?
           .attachments_answer_files
             p
@@ -22,7 +23,8 @@
                       td style="padding-left: 10px; padding-bottom: 10px;"
                         = link_to 'X', attachment_path(a), method: :delete, remote: true, data: {confirm: 'Are you sure?'}, class: "btn btn-xs btn-danger"
                     td style="padding-left: 15px; padding-bottom: 10px;"
-                      = link_to a.file.identifier, a.file.url, target: "blank"
+                      - cache a do
+                        = link_to a.file.identifier, a.file.url, target: "blank"
 
       div class="btn-toolbar" role="toolbar"
         div class="btn-group" role="group"
