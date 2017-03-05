@@ -59,6 +59,7 @@ gem 'dotenv-rails'
 gem 'therubyracer'
 gem 'postmark-rails'
 gem 'unicorn'
+gem 'redis-rails'
 
 group :development do
   gem 'capistrano', require: false
